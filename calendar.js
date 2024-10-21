@@ -5,10 +5,10 @@ function getMonthName(monthIndex) {
     ];
     return monthNames[monthIndex];
 }
-function createCalendar(month, year){
-const calendar = document.getElementById("calendar")
-calendar.innerHTML = "";
-const monthNameDiv = document.createElement("div");
+function createCalendar(month, year) {
+    const calendar = document.getElementById("calendar")
+    calendar.innerHTML = "";
+    const monthNameDiv = document.createElement("div");
     monthNameDiv.textContent = getMonthName(month) + " " + year;
     calendar.appendChild(monthNameDiv);
 
@@ -19,34 +19,27 @@ const monthNameDiv = document.createElement("div");
         calendar.appendChild(dayNameDiv);
     });
 
-const daysInMonth =new Date(year, month + 1, 0  ).getDate();
-const firstDay = new Date(year, month, 1).getDay();
-const currentDate = new Date(); // Get the current date
-const currentDay = currentDate.getDate();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const firstDay = new Date(year, month, 1).getDay();
+    const currentDate = new Date(); // Get the current date
+    const currentDay = currentDate.getDate();
 
-for  (let i = 0; i < firstDay; i++) {
-    const emptyDiv = document.createElement("div");
-    calendar.appendChild(emptyDiv);
+    for (let i = 0; i < firstDay; i++) {
+        const emptyDiv = document.createElement("div");
+        calendar.appendChild(emptyDiv);
 
-}
-for   (let day = 1; day <= daysInMonth; day++) {
-    const dayDiv = document.createElement("div");
-    dayDiv.classList.add("day");
-    dayDiv.textContent = day;
-    if (day == currentDay && month == currentDate.getMonth() && year === currentDate.getFullYear()) {
-        dayDiv.classList.add("current-day"); // Add a class for the current day
- }
-   //section to add events. 
-    dayDiv.addEventListener('click', () => {
-        const event = prompt('Enter an event for ' + day + '/' + (month + 1) + '/' + year);
-        if (event) {
-            alert('Event for ' + day + '/' + (month + 1) + '/' + year + ': ' + event);
-        
+    }
+    for (let day = 1; day <= daysInMonth; day++) {
+        const dayDiv = document.createElement("div");
+        dayDiv.classList.add("day");
+        dayDiv.textContent = day;
+        if (day == currentDay && month == currentDate.getMonth() && year === currentDate.getFullYear()) {
+            dayDiv.classList.add("current-day"); // Add a class for the current day
         }
-    });
-    calendar.appendChild(dayDiv);
 
-} 
+        calendar.appendChild(dayDiv);
+
+    }
 
 }
 
