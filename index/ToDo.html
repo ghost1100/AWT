@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>To-Do</title>
-    <link rel="stylesheet" href="css.css" />
-    <script src="script.js"></script>
-    <link rel="icon" href="favicon.ico" />
+    <link rel="stylesheet" href="/Static/css/css.css" />
+    <script src="/Static/JS/Theme.js"></script>
+    <link rel="icon" href="/Static/images/favicon.ico" />
 </head>
 <body>
 
     <div class="topnavigation">
-        <a href="SplashScreen.html"><img src="Logo.png" alt="Logo" /> </a>
+        <a href="SplashScreen.html"><img src="/Static/images/Logo.png" alt="Logo" /> </a>
     </div>
 
     <div class="topnavigation">
@@ -21,16 +21,16 @@
                 <button class="dropbtn">Customize Colors</button>
                 <div class="dropdown-content">
                     <!-- Color selectors inside dropdown -->
-                    <label for="bgColor">Background Color: </label>
+                    <label id="L1" for="bgColor">Background Color: </label>
                     <input type="color" id="bgColor" name="bgColor" value="#ffffff" onchange="changeBackgroundColor(this.value)">
                     
-                    <label for="textColor">Text Color: </label>
+                    <label id="L1" for="textColor">Text Color: </label>
                     <input type="color" id="textColor" name="textColor" value="#000000" onchange="changeTextColor(this.value)">
             
-                    <label for="NavigationColor">NavigationBar Color: </label>
+                    <label id="L1" for="NavigationColor">NavigationBar Color: </label>
                     <input type="color" id="BarColor" name="BarColor" value="#000000" onchange="changeBarColor(this.value)">
 
-                    <label for="NavigationTextColor">NavigationBar Color: </label>
+                    <label id="L1" for="NavigationTextColor">NavigationBar Text Color: </label>
                     <input type="color" id="BartxtColor" name="BartxtColor" value="#000000" onchange="NavigationTextColor(this.value)">
                 </div>
             </div>

@@ -137,3 +137,6 @@ border-radius: 20px;
 .nav-button:hover {
     transform: scale(1.7); 
 }
+#L1 {
+    color: #000000;
+}
