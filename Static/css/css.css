@@ -81,7 +81,6 @@ nav a:hover {
 }
 
 #calendar{
-    position: sticky;
     display: grid;
     grid-template-columns: repeat(7,1fr);
     gap: 10px;
@@ -103,12 +102,12 @@ nav a:hover {
 }
 
 .day {
-    display: inline-block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 50px;
     height: 30px;
     text-align: center;
-    margin: 2px;
-    border: 1px;
     border: 1px solid #2a0f0f;
     padding: 10px;
     text-align: center;
@@ -139,4 +138,44 @@ border-radius: 20px;
 }
 #L1 {
     color: #000000;
+}
+.Model {
+    display: none;
+    position: relative;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.2);
+
+}
+.ModelContent{
+    background-color:#fefefe ;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 40%;
+}
+.CloseButton{
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+.CloseButton:hover,
+.CloseButton:focus {
+    color: #000000;
+    text-decoration: none;
+    cursor: pointer;
+}
+#EventForm{
+    display: none;
+    position:fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    
 }

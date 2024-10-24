@@ -1,15 +1,3 @@
-<<<<<<< Updated upstream
-# pip install flask
-from flask import Flask, render_template, request, redirect, url_for, flash
-
-app = Flask(__name__)
-
-@app.route('/')
-def home():
-    return "Hello, Flask!"
-
-if __name__ == '__main__':
-=======
 # pip install flask
 from flask import Flask, render_template, request, redirect, url_for, flash
 
@@ -33,5 +21,4 @@ def weather():
     return render_template('Weather.html')
 
 if __name__ == '__main__':
->>>>>>> Stashed changes
     app.run(debug=True)
