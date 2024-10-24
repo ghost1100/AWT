@@ -1,0 +1,1 @@
+the features branch is meant to be the back end meaning its the implementation of the flask and python app and the main is just the front end which is html css js has nothing to do with flask, i will continue working on the feature tho but i will create a release just incase
