@@ -1,8 +1,8 @@
 
 body {
     font-family: Arial, sans-serif;
-    margin: 10;
-    padding: 20;
+    margin-right: 10;
+    padding-right: 20;
 }
 
 
@@ -156,6 +156,7 @@ border-radius: 20px;
     padding: 20px;
     border: 1px solid #888;
     width: 40%;
+
 }
 .CloseButton{
     color: #aaa;
@@ -175,7 +176,7 @@ border-radius: 20px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: white;
     padding: 20px;
+    background-color: rgba(216, 120, 120, 0.2);
     
 }
