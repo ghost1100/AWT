@@ -24,29 +24,53 @@ function createCalendar(month, year) {
     const currentDate = new Date(); // Get the current date
     const currentDay = currentDate.getDate();
 
+    // Create empty divs for the days before the first day of the month
     for (let i = 0; i < firstDay; i++) {
         const emptyDiv = document.createElement("div");
         calendar.appendChild(emptyDiv);
 
     }
+
+    // Create day divs for each day in the month
     for (let day = 1; day <= daysInMonth; day++) {
         const dayDiv = document.createElement("div");
         dayDiv.classList.add("day");
         dayDiv.textContent = day;
+
         if (day == currentDay && month == currentDate.getMonth() && year === currentDate.getFullYear()) {
             dayDiv.classList.add("current-day"); // Add a class for the current day
         }
 
+        // Add click event listener to open event form
+        dayDiv.addEventListener('click', function() {
+            OpenEventForm(day, month, year);
+        });
+
         calendar.appendChild(dayDiv);
-
     }
-
 }
 
-const date = new Date();
-createCalendar(date.getMonth(), date.getFullYear());
-let currentMonth = date.getMonth();
-let currentYear = date.getFullYear();
+function OpenEventForm(day, month, year) {
+    const eventForm = document.getElementById("EventForm");
+    eventForm.style.display = "block";
+    document.getElementById("eventday").value = day;
+    document.getElementById("eventmonth").value = month;
+    document.getElementById("eventyear").value = year;
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const date = new Date();
+    let currentMonth = date.getMonth();
+    let currentYear = date.getFullYear();
+
+    createCalendar(currentMonth, currentYear);
+
+    // Add close button event listener
+    document.querySelector('.CloseButton').addEventListener('click', function() {
+        const eventForm = document.getElementById("EventForm");
+        eventForm.style.display = "none";
+    });
+});
 
 function showPreviousMonth() {
     currentMonth--;
@@ -66,7 +90,6 @@ function showNextMonth() {
     createCalendar(currentMonth, currentYear);
 }
 
-// adds in the buttons to navigate months works well.
 const prevButton = document.createElement('button');
 prevButton.textContent = '< Last Month';
 prevButton.addEventListener('click', showPreviousMonth);
@@ -80,3 +103,19 @@ nextButton.addEventListener('click', showNextMonth);
 document.body.insertBefore(nextButton, calendar);
 nextButton.classList.add('nav-button');
 
+let currentMonth; // Declare currentMonth in the global scope
+let currentYear;  // Declare currentYear in the global scope
+
+document.addEventListener('DOMContentLoaded', function() {
+    const date = new Date();
+    currentMonth = date.getMonth(); // Initialize currentMonth
+    currentYear = date.getFullYear(); // Initialize currentYear
+
+    createCalendar(currentMonth, currentYear);
+
+    // Add close button event listener
+    document.querySelector('.CloseButton').addEventListener('click', function() {
+        const eventForm = document.getElementById("EventForm");
+        eventForm.style.display = "none";
+    });
+});
