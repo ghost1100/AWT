@@ -71,7 +71,22 @@ document.addEventListener('DOMContentLoaded', function() {
         eventForm.style.display = "none";
     });
 });
+function ChangeBackground(month){
+    const seasons = ["Winter", "Spring", "Summer", "Autumn"];
+    const season =seasons[month];
+    fetch('/get_random_image?query=${season}')
+    .then(response => response.json())
+    .then(data => {
+        if(data.image_url){
+            document.body.style.backgroundImage = `url(${data.image_url})`;
+        }
+        else{
+            console.error("Unabe to fetch image, Smoke Break!!")
+        }
 
+        })
+        .catch(error => console.error("Error:",error));
+}
 function showPreviousMonth() {
     currentMonth--;
     if (currentMonth < 0) {
@@ -92,14 +107,15 @@ function showNextMonth() {
 
 const prevButton = document.createElement('button');
 prevButton.textContent = '< Last Month';
-prevButton.addEventListener('click', showPreviousMonth);
+prevButton.addEventListener('click', showPreviousMonth,ChangeBackground);
 document.body.insertBefore(prevButton, calendar);
 prevButton.classList.add('nav-button');
 
 const nextButton = document.createElement('button');
 nextButton.textContent = ' Next Month >';
 
-nextButton.addEventListener('click', showNextMonth);
+nextButton.addEventListener('click', showNextMonth,ChangeBackground);
+nextButton.addEventListener('click',ChangeBackground)
 document.body.insertBefore(nextButton, calendar);
 nextButton.classList.add('nav-button');
 
