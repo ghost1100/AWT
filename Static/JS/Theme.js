@@ -29,4 +29,5 @@ function NavigationTextColor(color) {
             element.style.color = color;
         });
     });
+
 }
