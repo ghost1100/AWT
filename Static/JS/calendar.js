@@ -47,6 +47,8 @@ function createCalendar(month, year) {
         });
 
         calendar.appendChild(dayDiv);
+
+        ChangeBackground(month);
     }
 }
 
@@ -73,9 +75,12 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 function ChangeBackground(month){
     const seasons = ["Winter", "Spring", "Summer", "Autumn"];
-    const season =seasons[month];
+    const season = seasons[Math.floor(month/3)];
     fetch('/get_random_image?query=${season}')
-    .then(response => response.json())
+    .then(response =>{
+        console.log(`Fetch Status: ${response.status}`); // Log status code
+        return response.json();
+    })
     .then(data => {
         if(data.image_url){
             document.body.style.backgroundImage = `url(${data.image_url})`;
@@ -94,6 +99,7 @@ function showPreviousMonth() {
         currentYear--;
     }
     createCalendar(currentMonth, currentYear);
+    ChangeBackground(currentMonth);
 }
 
 function showNextMonth() {
@@ -103,6 +109,7 @@ function showNextMonth() {
         currentYear++;
     }
     createCalendar(currentMonth, currentYear);
+    ChangeBackground(currentMonth);
 }
 
 const prevButton = document.createElement('button');
@@ -128,7 +135,7 @@ document.addEventListener('DOMContentLoaded', function() {
     currentYear = date.getFullYear(); // Initialize currentYear
 
     createCalendar(currentMonth, currentYear);
-
+ChangeBackground(currentMonth);
     // Add close button event listener
     document.querySelector('.CloseButton').addEventListener('click', function() {
         const eventForm = document.getElementById("EventForm");
