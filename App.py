@@ -2,7 +2,7 @@
 # pip install requests
 from flask import Flask, jsonify, render_template, request, redirect, url_for, flash
 from tkinter import ttk
-import requests # type: ignore
+import requests
 
 ##API KEYS##
 #Unsplash API key
@@ -51,10 +51,10 @@ def get_random_image():
     else:
         return jsonify({"error": "API request failed", "status_code": response.status_code}), response.status_code
 
-@app.route('/display_image')
-def display_image(image_url):
-    image_url = request.args.get("image_url")
-    return render_template('Home.html', image_url=image_url)
+#@app.route('/display_image')
+#def display_image(image_url):
+ #   image_url = request.args.get("image_url")
+  #  return render_template('Home.html', image_url=image_url) doesn't work as intended.
 
 
 if __name__ == '__main__':
