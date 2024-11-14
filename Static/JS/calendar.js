@@ -86,9 +86,8 @@ function ChangeBackground(month){
     .then(data => {
         if(data.image_url){
             document.body.style.backgroundImage = `url(${data.image_url})`;
-          //  document.body.style.backgroundSize = "cover";
-          //  document.body.style.backgroundPosition = "center";
-
+            document.body.style.backgroundSize = "cover";
+            document.body.style.backgroundPosition = "center";
         }
         else{
             console.error("Unabe to fetch image, Smoke Break!!")
