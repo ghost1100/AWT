@@ -48,7 +48,6 @@ function createCalendar(month, year) {
 
         calendar.appendChild(dayDiv);
 
-        ChangeBackground(month);
     }
 }
 
@@ -73,6 +72,9 @@ document.addEventListener('DOMContentLoaded', function() {
         eventForm.style.display = "none";
     });
 });
+
+
+
 function ChangeBackground(month){
     const seasons = ["Winter", "Spring", "Summer", "Autumn"];
     const season = seasons[Math.floor(month/3)];
@@ -109,7 +111,6 @@ function showNextMonth() {
         currentYear++;
     }
     createCalendar(currentMonth, currentYear);
-    ChangeBackground(currentMonth);
 }
 
 const prevButton = document.createElement('button');
