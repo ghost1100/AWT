@@ -51,11 +51,6 @@ def get_random_image():
     else:
         return jsonify({"error": "API request failed", "status_code": response.status_code}), response.status_code
 
-#@app.route('/display_image')
-#def display_image(image_url):
- #   image_url = request.args.get("image_url")
-  #  return render_template('Home.html', image_url=image_url) doesn't work as intended.
-
 
 if __name__ == '__main__':
     app.run(debug=True)
