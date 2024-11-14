@@ -50,11 +50,6 @@ def get_random_image():
             return jsonify({"error": "JSON decode error", "message": str(e)}), 500
     else:
         return jsonify({"error": "API request failed", "status_code": response.status_code}), response.status_code
-   
-  
-    
-
-    
 
 @app.route('/display_image')
 def display_image(image_url):
