@@ -85,7 +85,14 @@ function ChangeBackground(month){
     })
     .then(data => {
         if(data.image_url){
-            document.body.style.backgroundImage = `url(${data.image_url})`;
+            document.body.classList.add('transition');
+            if (data.image_url){
+                const img = new Image();
+                img.src = data.image_url;
+                img.onload = () => {
+                    document.body.style.backgroundImage = `url(${data.image_url})`;
+                }
+            }
             document.body.style.backgroundSize = "cover";
             document.body.style.backgroundPosition = "center";
         }
