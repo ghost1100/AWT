@@ -1,120 +1,94 @@
-# pip install flask
-# pip install requests
+# Required Imports
+from flask import Flask, jsonify, render_template, request
 import sqlite3
-from flask import Flask, jsonify, render_template, request, redirect, url_for, flash
-from tkinter import ttk
 import requests
-import sqlite3 
 
-
-#conn = sqlite3.connect('Database.db')
-#c = conn.cursor()
-#c.execute("SELECT name FROM sqlite_master WHERE type='table';")
-#print("Tables in the database: ", c.fetchall())
-#just to confirm that my tables exsist and they do...
-#c.execute("SELECT * FROM Events")
-#rows = c.fetchall()
-#for row in rows:
- #   print(row)
-  #  conn.close()
-
-##API KEYS##
-#Unsplash API key
+# API Keys
 UNSPLASH_API_KEY = "nLfSlOoclheYYtRhGHZi5FIBixRMjTJe7Ra6BsVbKEg"
-#Unsplash API URL
-UNSPLASH_API_URL = "https://api.unsplash.com/photos/random?query={category}&orientation=landscape&client_id=nLfSlOoclheYYtRhGHZi5FIBixRMjTJe7Ra6BsVbKEg"
+UNSPLASH_API_URL = "https://api.unsplash.com/photos/random?query={category}&orientation=landscape&client_id=" + UNSPLASH_API_KEY
 
-
-
+# Initialize Flask App
 app = Flask(__name__)
 
+# Utility Functions
+def get_db_connection():
+    """Establishes and returns a connection to the SQLite database."""
+    conn = sqlite3.connect('Database.db')
+    conn.row_factory = sqlite3.Row
+    return conn
+
+# Routes
 @app.route('/')
 def splash_screen():
-    return render_template('SplashScreen.html') 
+    return render_template('SplashScreen.html')
 
 @app.route('/home')
 def home():
-    return render_template ('Home.html')
+    return render_template('Home.html')
 
-@app.route('/todo')  
+@app.route('/todo')
 def todo():
-    return render_template('ToDo.html')  
+    return render_template('ToDo.html')
 
-@app.route('/weather') 
+@app.route('/weather')
 def weather():
     return render_template('Weather.html')
 
-
-@app.route ('/get_random_image')
+@app.route('/get_random_image')
 def get_random_image():
-    query = request.args.get("query","nature White Background")
-    response = requests.get(UNSPLASH_API_URL.format(category=query))
-    data = response.json()
-    image_url = data['urls']['regular'] if 'urls' in data and 'regular' in data ['urls'] else None
-    if response.status_code == 200:
-        try:
+    """Fetch a random image from the Unsplash API."""
+    query = request.args.get("query", "nature White Background")
+    try:
+        response = requests.get(UNSPLASH_API_URL.format(category=query))
+        if response.status_code == 200:
             data = response.json()
-            image_url = data['urls']['regular'] if 'urls' in data and 'regular' in data['urls'] else None
+            image_url = data.get('urls', {}).get('regular')
             if image_url:
                 return jsonify({'image_url': image_url})
-            else:
-                return jsonify({"message": "No image found"}), 404
-        except ValueError as e:
-            return jsonify({"error": "JSON decode error", "message": str(e)}), 500
-    else:
-        return jsonify({"error": "API request failed", "status_code": response.status_code}), response.status_code
-
-    
-
-def get_db_connection():
-        conn = sqlite3.connect('Database.db')
-        conn.row_factory = sqlite3.Row
-        return conn
-
-#@app.route('/get_todo_list')
-#def get_todo_list():
- #   conn = get_db_connection()
-  #  cur = conn.cursor()
-   # cur.execute("SELECT * FROM todo_list")
-    #rows = cur.fetchall()
-    #return jsonify(rows)
-
+            return jsonify({"message": "No image found"}), 404
+        else:
+            return jsonify({"error": "API request failed", "status_code": response.status_code}), response.status_code
+    except requests.exceptions.RequestException as e:
+        return jsonify({"error": "Request error", "message": str(e)}), 500
 
 @app.route('/get_calendar_event')
 def get_calendar_event():
-    conn = get_db_connection()
-    cur = conn.cursor()
-    cur.execute("SELECT Title FROM Events")
-    rows = cur.fetchall()
-    
-    Titles = [row['Title'] for row in rows]
-    print("fetched Titles: " , Titles)
-    return jsonify(Titles)
+    """Retrieve event titles from the database."""
+    try:
+        conn = get_db_connection()
+        cur = conn.cursor()
+        cur.execute("SELECT Title FROM Events")
+        rows = cur.fetchall()
+        titles = [row["Title"] for row in rows]
+        conn.close()
+        return jsonify(titles)
+    except sqlite3.Error as e:
+        return jsonify({"error": "Database error", "message": str(e)}), 500
 
 @app.route('/add_event', methods=['POST'])
 def add_event():
+    """Add a new event to the database."""
+    try:
+        data = request.json
+        required_fields = ['Title', 'Description', 'Start_Date', 'End_Date']
+        if not all(field in data for field in required_fields):
+            return jsonify({"error": "Missing required fields"}), 400
 
-    data = request.json
-    if not all(key in data for key in ['Title', 'Description', 'Start_Date', 'End_Date']):
-        return jsonify({"error": "Missing required fields"}), 400
-    
-    conn = get_db_connection()
-    cur = conn.cursor()
-    data = request.json
-    cur.execute(
-          """INSERT INTO Events (Title, Description, Start_Date, End_Date)
+        conn = get_db_connection()
+        cur = conn.cursor()
+        cur.execute(
+            """
+            INSERT INTO Events (Title, Description, Start_Date, End_Date)
             VALUES (?, ?, ?, ?)
             """,
-              (data['Title'], data['Description'], data['Start_Date'], data['End_Date'])
-    )
-    conn.commit()
-    conn.close()
-    return jsonify({"message": "Event added successfully"}), 201
-    
-         
+            (data['Title'], data['Description'], data['Start_Date'], data['End_Date'])
+        )
+        conn.commit()
+        conn.close()
+        return jsonify({"message": "Event added successfully"}), 201
+    except sqlite3.Error as e:
+        return jsonify({"error": "Database error", "message": str(e)}), 500
 
-
+# Main Entry Point
 if __name__ == '__main__':
     app.run(debug=True)
-
-
