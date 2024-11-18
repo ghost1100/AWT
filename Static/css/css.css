@@ -214,7 +214,7 @@ nav a:hover {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(107, 69, 69, 0.5);
     z-index: 999;
 }
 
@@ -259,17 +259,6 @@ nav a:hover {
 
 .day{
     background-color: #d6e8fc;
-    color: #000000;
-    font-weight: bold;
-}
-
-.monthNames{
-    background-color: #1f6abf;
-    color: #000000;
-    font-weight: bold;
-}
-.dayNames{
-    background-color: #1f6abf;
     color: #000000;
     font-weight: bold;
 }
