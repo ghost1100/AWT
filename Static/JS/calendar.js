@@ -16,7 +16,7 @@ function createCalendar(month, year) {
     const monthNameDiv = document.createElement("div");
     monthNameDiv.textContent = getMonthName(month) + " " + year;
     calendar.appendChild(monthNameDiv);
-
+//trying to add a line space between month name and the table will come back to this later!!
     const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     dayNames.forEach(dayName => {
         const dayNameDiv = document.createElement("div");
