@@ -120,11 +120,15 @@ background-color: #007BFF;
 border-radius: 20px;
 }
 .current-day {
-    background-color: rgba(83, 83, 6,0.5);
-    border : 2px solid black;
+    background-color: rgba(200, 17, 220, 0.5);
+    border : 5px solid black;
     font-weight: bold; 
 }
+.current-day:hover{
+    background-color: #007BFF;
+    border-radius: 30px;
 
+}
 .nav-button{
   color: #eaeff4;
     border: #eaeef3;
@@ -180,4 +184,26 @@ border-radius: 20px;
     padding: 20px;
     background-color: rgba(216, 120, 120, 0.2);
     
+}
+.Model{
+    background-color: #0056b3;
+    color: #eaeef3;
+    font-weight: bold;
+}
+
+.day{
+    background-color: #d6e8fc;
+    color: #000000;
+    font-weight: bold;
+}
+
+.monthNames{
+    background-color: #1f6abf;
+    color: #000000;
+    font-weight: bold;
+}
+.dayNames{
+    background-color: #1f6abf;
+    color: #000000;
+    font-weight: bold;
 }

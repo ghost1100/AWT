@@ -99,7 +99,7 @@ document.getElementById('eventForm').addEventListener('submit', function(events)
 function ChangeBackground(month){
     const seasons = ["Winter", "Spring", "Summer", "Autumn"];
     const season = seasons[Math.floor(month/3)];
-    fetch('/get_random_image?query=${season}')
+    fetch(`/get_random_image?query=${season}`)
     .then(response =>{
         console.log(`Fetch Status: ${response.status}`); // Log status code
         return response.json();
