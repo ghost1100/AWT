@@ -1,5 +1,6 @@
 # pip install flask
 # pip install requests
+import sqlite3
 from flask import Flask, jsonify, render_template, request, redirect, url_for, flash
 from tkinter import ttk
 import requests
@@ -10,18 +11,15 @@ UNSPLASH_API_KEY = "nLfSlOoclheYYtRhGHZi5FIBixRMjTJe7Ra6BsVbKEg"
 #Unsplash API URL
 UNSPLASH_API_URL = "https://api.unsplash.com/photos/random?query={category}&orientation=landscape&client_id=nLfSlOoclheYYtRhGHZi5FIBixRMjTJe7Ra6BsVbKEg"
 
-
-
 app = Flask(__name__)
 
 @app.route('/')
-def home():
-    return render_template ('Home.html')
-
-
-@app.route('/splashscreen')
 def splash_screen():
     return render_template('SplashScreen.html') 
+
+@app.route('/home')
+def home():
+    return render_template ('Home.html')
 
 @app.route('/todo')  
 def todo():
@@ -51,6 +49,7 @@ def get_random_image():
     else:
         return jsonify({"error": "API request failed", "status_code": response.status_code}), response.status_code
 
+    
 
 if __name__ == '__main__':
     app.run(debug=True)

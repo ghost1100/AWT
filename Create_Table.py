@@ -6,10 +6,10 @@ print ("Connection was a success..")
 
 conn.execute("""CREATE TABLE IF NOT EXISTS Events(
              ID INTEGER PRIMARY KEY AUTOINCREMENT,
-             Day INTEGER NOT NULL,
-             Month INTEGER NOT NULL,
-             Year INTEGER NOT NULL,
-             Event Text NOT NULL
+             Title text NOT NULL,
+             Description text NOT NULL,
+            Start_Date date, 
+             End_Date date
              );""")
 conn.execute("""CREATE TABLE IF NOT EXISTS ToDo(
              TaskID INTEGER PRIMARY KEY AUTOINCREMENT,
