@@ -58,7 +58,6 @@ nav a:hover {
     background-color: #f0f4f8;
     min-width: 200px;
     padding: 10px;
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
     z-index: 1;
     border-radius: 5px;
 }
@@ -83,22 +82,21 @@ nav a:hover {
 .dropdown:hover .dropbtn {
     background-color: #0056b3;
 }
-.topnavigation{
-    background-color: #000000;
-}
+
+
 
 /* Calendar Grid */
 #calendar {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     gap: 10px;
-    max-width: 90%; /* Responsive */
+    max-width: 90%; 
     margin: 30px auto;
     padding: 20px;
     border: 2px dotted #2aabb9;
     border-radius: 10px;
-    background-color: #f9f9f9;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    background-color: rgba(235, 232, 232, 0.5); 
+    box-shadow: 0 4px 10px rgba(235, 232, 232, 1.6); 
 }
 
 /* Day Boxes */
@@ -114,26 +112,26 @@ nav a:hover {
     cursor: pointer;
     background-color:rgba(0, 0, 0, 0.1);
     transition: background-color 0.3s, transform 0.2s;
-    border-radius: 5px; /* Softer edges */
+    border-radius: 5px;
 }
 
 .day:hover {
-    background-color: #90caf9;
+    background-color: #1669ad;
     transform: scale(1.1);
 }
 
 /* Current Day Highlight */
 .current-day {
-    background-color: #ffeb3b;
+    background-color: #176ca9;
     border: 2px solid #f57f17;
     color: #000;
     font-weight: bold;
-    border-radius: 50%; /* Circle effect */
+    border-radius: 20%; /* Circle effect */
     transition: background-color 0.3s, transform 0.2s;
 }
 
 .current-day:hover {
-    background-color: #ffd740;
+    background-color: #026bff;
     transform: scale(1.2);
 }
 
@@ -258,7 +256,7 @@ nav a:hover {
 }
 
 .day{
-    background-color: #d6e8fc;
+    background-color: #99c0ed;
     color: #000000;
     font-weight: bold;
 }
