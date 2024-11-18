@@ -7,16 +7,16 @@ import requests
 import sqlite3 
 
 
-conn = sqlite3.connect('Database.db')
-c = conn.cursor()
-c.execute("SELECT name FROM sqlite_master WHERE type='table';")
-print("Tables in the database: ", c.fetchall())
+#conn = sqlite3.connect('Database.db')
+#c = conn.cursor()
+#c.execute("SELECT name FROM sqlite_master WHERE type='table';")
+#print("Tables in the database: ", c.fetchall())
 #just to confirm that my tables exsist and they do...
-c.execute("SELECT * FROM Events")
-rows = c.fetchall()
-for row in rows:
-    print(row)
-    conn.close()
+#c.execute("SELECT * FROM Events")
+#rows = c.fetchall()
+#for row in rows:
+ #   print(row)
+  #  conn.close()
 
 ##API KEYS##
 #Unsplash API key
@@ -93,6 +93,11 @@ def get_calendar_event():
 
 @app.route('/add_event', methods=['POST'])
 def add_event():
+
+    data = request.json
+    if not all(key in data for key in ['Title', 'Description', 'Start_Date', 'End_Date']):
+        return jsonify({"error": "Missing required fields"}), 400
+    
     conn = get_db_connection()
     cur = conn.cursor()
     data = request.json
@@ -100,16 +105,16 @@ def add_event():
           """INSERT INTO Events (Title, Description, Start_Date, End_Date)
             VALUES (?, ?, ?, ?)
             """,
-              (data['tiTitletle'], data['Description'], data['Start_Date'], data['End_Date'])
+              (data['Title'], data['Description'], data['Start_Date'], data['End_Date'])
     )
-    if not all(key in data for key in ['Title', 'Description', 'Start_Date', 'End_Date']):
-        return jsonify({"error": "Missing required fields"}), 400
-                
     conn.commit()
     conn.close()
     return jsonify({"message": "Event added successfully"}), 201
+    
          
 
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
