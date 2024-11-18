@@ -50,16 +50,15 @@
    <div id="monthName"></div> 
     <script src="{{ url_for('static', filename='js/calendar.js') }}"></script>
     <div id="EventForm" class="Model">
+        <!--Events Form-->
 <div class="ModelContent">
 <span class="CloseButton">&times;</span>
 <h2>Add a New Event</h2>
 <form id="eventForm">
-<input  type="hidden"id="eventday">
-<input type="hidden"id="eventmonth">
-<input type="hidden"id="eventyear">
-<input type="text" id="eventName" placeholder="Event Name">
-<input type="datetime-local" id="eventDate" placeholder="Event Date">
-<input type="text" id="eventDescription" placeholder="Event Description">
+<input type="text" id="EventTitle" placeholder="Event Name" required>
+<input type="text" id="EventDescription" placeholder="Event Description" required>
+<input type="datetime-local" id="StartDate" placeholder="Event Start Date" required>
+<input type="datetime-local" id="EndDate" placeholder="Event End Date" required>
 <button type="submit" id="eventSubmit">Submit</button>
 <button id="CloseButton">Close</button>
 </form>

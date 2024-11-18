@@ -150,5 +150,26 @@ ChangeBackground(currentMonth);
     document.querySelector('.CloseButton').addEventListener('click', function() {
         const eventForm = document.getElementById("EventForm");
         eventForm.style.display = "none";
+   
+   
+   
+        const form = document.getElementById("EventForm");
+        const CloseButton = document.getElementById("CloseButton");
+    
+        fetchEvents();
+    
+        form.addEventListener("submit", function(event){
+            event.preventDefault();
+    
+            const title = document.getElementById("EventTitle").value;
+            const description = document.getElementById("EventDescription").value;
+            const startdate = document.getElementById("StartDate").value;
+            const enddate = document.getElementById("EndDate").value;
+            if(!title || !startdate){
+                alert("Please fill in all fields");
+            }
+                });             
     });
+
 });
+
