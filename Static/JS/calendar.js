@@ -145,6 +145,48 @@ document.addEventListener('DOMContentLoaded', function () {
             if (eventForm) {
                 eventForm.style.display = "none";
             }
+
+
+            //Create Eventlistener for Form Submisson
+            document.getElementById('eventForm').addEventListener("submit",function(event){
+                event.preventDefault();
+                //Collecting the data from the form
+                const EventTitle = document.getElementById("EventTitle").value;
+                const EventDescription = document.getElementById("EventDescription").value
+                const StartDate = document.getElementById("StartDate").value;
+                const EndDate = document.getElementById("EndDate").value;
+
+                //Creating an object to send it to the back end.. app.py
+                const Event = {
+                    "EventTitle": EventTitle,
+                    "EventDescription": EventDescription,
+                    "StartDate": StartDate,
+                    "EndDate": EndDate
+                };
+                //Sending the data to the backend using fetch API
+                fetch('/createEvent', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(Event)
+                        })
+                        .then(data =>{
+                            console.log("Event Saved Successfully: ",data)
+                        .then(response => response.json())
+                        .then(data => console.log(data))
+                        .catch(error => console.error('Error:', error))
+                        .finally(() => {
+                            // Clear the form fields after submission
+                            document.getElementById("EventTitle").value = "";
+                            document.getElementById("EventDescription").value = "";
+                            document.getElementById("StartDate").value = "";
+                            document.getElementById("EndDate").value = "";
+                            });
+
+            })
         });
-    }
-});
+          }
+        )}
+    
+    });
