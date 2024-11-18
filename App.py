@@ -12,7 +12,11 @@ c = conn.cursor()
 c.execute("SELECT name FROM sqlite_master WHERE type='table';")
 print("Tables in the database: ", c.fetchall())
 #just to confirm that my tables exsist and they do...
-
+c.execute("SELECT * FROM Events")
+rows = c.fetchall()
+for row in rows:
+    print(row)
+    conn.close()
 
 ##API KEYS##
 #Unsplash API key
