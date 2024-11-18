@@ -84,7 +84,6 @@ nav a:hover {
 }
 
 
-
 /* Calendar Grid */
 #calendar {
     display: grid;
@@ -164,7 +163,15 @@ nav a:hover {
     border-radius: 5px;
 }
 
-/* Event Form Modal */
+/*Events colour Format*/
+#eventFormTitle{
+    color: #000;
+}
+#EventForm label{
+    color: #000;
+}
+
+/* Event Form Format Area */
 #EventForm {
     display: none;
     position: fixed;
@@ -172,7 +179,7 @@ nav a:hover {
     left: 50%;
     transform: translate(-50%, -50%);
     padding: 20px;
-    width: 90%;
+    width: 100%;
     max-width: 400px;
     background-color: white;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25); /* Add shadow */
@@ -182,6 +189,7 @@ nav a:hover {
 
 #EventForm input,
 #EventForm textarea {
+    color: #000;
     width: 100%;
     margin-bottom: 10px;
     padding: 10px;
@@ -192,7 +200,7 @@ nav a:hover {
 #EventForm button {
     width: 100%;
     padding: 10px;
-    background-color: #007BFF;
+    background-color: #0f437a;
     color: white;
     border: none;
     border-radius: 5px;
@@ -201,7 +209,7 @@ nav a:hover {
 }
 
 #EventForm button:hover {
-    background-color: #0056b3;
+    background-color: #348dec;
 }
 
 /* Modal Background */
