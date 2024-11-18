@@ -177,7 +177,7 @@ nextButton.classList.add('nav-button');
 let currentMonth; // Declare currentMonth in the global scope
 let currentYear;  // Declare currentYear in the global scope
 
-document.addEventListener('DOMContentLoaded', function() {
+
     const date = new Date();
     currentMonth = date.getMonth(); // Initialize currentMonth
     currentYear = date.getFullYear(); // Initialize currentYear
@@ -209,5 +209,4 @@ ChangeBackground(currentMonth);
                 });             
     });
 
-});
 
