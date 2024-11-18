@@ -6,6 +6,14 @@ from tkinter import ttk
 import requests
 import sqlite3 
 
+
+conn = sqlite3.connect('Database.db')
+c = conn.cursor()
+c.execute("SELECT name FROM sqlite_master WHERE type='table';")
+print("Tables in the database: ", c.fetchall())
+#just to confirm that my tables exsist and they do...
+
+
 ##API KEYS##
 #Unsplash API key
 UNSPLASH_API_KEY = "nLfSlOoclheYYtRhGHZi5FIBixRMjTJe7Ra6BsVbKEg"
