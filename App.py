@@ -47,7 +47,7 @@ def weather():
 
 @app.route ('/get_random_image')
 def get_random_image():
-    query = request.args.get("query","nature")
+    query = request.args.get("query","nature White Background")
     response = requests.get(UNSPLASH_API_URL.format(category=query))
     data = response.json()
     image_url = data['urls']['regular'] if 'urls' in data and 'regular' in data ['urls'] else None
@@ -71,22 +71,25 @@ def get_db_connection():
         conn.row_factory = sqlite3.Row
         return conn
 
-@app.route('/get_todo_list')
-def get_todo_list():
-    conn = get_db_connection()
-    cur = conn.cursor()
-    cur.execute("SELECT * FROM todo_list")
-    rows = cur.fetchall()
-    return jsonify(rows)
+#@app.route('/get_todo_list')
+#def get_todo_list():
+ #   conn = get_db_connection()
+  #  cur = conn.cursor()
+   # cur.execute("SELECT * FROM todo_list")
+    #rows = cur.fetchall()
+    #return jsonify(rows)
 
 
 @app.route('/get_calendar_event')
 def get_calendar_event():
     conn = get_db_connection()
     cur = conn.cursor()
-    cur.execute("SELECT * FROM Events")
+    cur.execute("SELECT Title FROM Events")
     rows = cur.fetchall()
-    return jsonify(rows)
+    
+    Titles = [row['Title'] for row in rows]
+    print("fetched Titles: " , Titles)
+    return jsonify(Titles)
 
 @app.route('/add_event', methods=['POST'])
 def add_event():
@@ -97,9 +100,9 @@ def add_event():
           """INSERT INTO Events (Title, Description, Start_Date, End_Date)
             VALUES (?, ?, ?, ?)
             """,
-              (data['title'], data['description'], data['start_date'], data['end_date'])
+              (data['tiTitletle'], data['Description'], data['Start_Date'], data['End_Date'])
     )
-    if not all(key in data for key in ['title', 'description', 'start_date', 'end_date']):
+    if not all(key in data for key in ['Title', 'Description', 'Start_Date', 'End_Date']):
         return jsonify({"error": "Missing required fields"}), 400
                 
     conn.commit()

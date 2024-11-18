@@ -113,6 +113,22 @@ function showPreviousMonth() {
     ChangeBackground(currentMonth);
 }
 
+
+function FetchEvents(){
+    fetch('/get_calendar_events')
+    .then(response => response.json())
+    .then(data => {
+        const calendar = document.getElementById('calendar');
+        calendar.innerHTML = "";
+        data.forEach(title => {
+            const event = document.createElement('div');
+            event.textContent = title;
+            calendar.appendChild(event);
+});  
+})
+.catch(error => console.error('Error Fetching Title:', error) )
+}
+window.onload = fetchEvents;
 function showNextMonth() {
     currentMonth++;
     if (currentMonth > 11) {
