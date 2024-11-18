@@ -52,8 +52,11 @@ function createCalendar(month, year) {
 }
 
 function OpenEventForm(day, month, year) {
-    const EventForm = document.getElementById("EventForm");
-    EventForm.style.display = "block";// shows the form as a block and ensures that it shows
+    const eventForm = document.getElementById("EventForm");
+    eventForm.style.display = "block";
+    document.getElementById("eventday").value = day;
+    document.getElementById("eventmonth").value = month;
+    document.getElementById("eventyear").value = year;
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -65,41 +68,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Add close button event listener
     document.querySelector('.CloseButton').addEventListener('click', function() {
-        const EventForm = document.getElementById("EventForm");
-        EventForm.style.display = "none";
+        const eventForm = document.getElementById("EventForm");
+        eventForm.style.display = "none";
     });
 });
 
-document.getElementById('eventForm').addEventListener('submit', function(events) {
-    events.preventDefault();
-    const formData = {
-        Title : document.getElementById('EventTitle').value,
-        Description : document.getElementById('EventDescription').value,
-        Start_Date : document.getElementById('StartDate').value,
-        End_Date : document.getElementById('EndDate').value  
-    };
-    fetch('/add_event', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData)
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.message){
-                    alert(data.message);
-            } else{
-                alert(data.error);
-                }
-            })
-            .catch(error => console.error("Error: ",error));
-        });
+
 
 function ChangeBackground(month){
     const seasons = ["Winter", "Spring", "Summer", "Autumn"];
     const season = seasons[Math.floor(month/3)];
-    fetch(`/get_random_image?query=${season}`)
+    fetch('/get_random_image?query=${season}')
     .then(response =>{
         console.log(`Fetch Status: ${response.status}`); // Log status code
         return response.json();
@@ -133,24 +112,7 @@ function showPreviousMonth() {
     createCalendar(currentMonth, currentYear);
     ChangeBackground(currentMonth);
 }
-    
 
-
-function FetchEvents(){
-    fetch('/get_calendar_events')
-    .then(response => response.json())
-    .then(data => {
-        const calendar = document.getElementById('calendar');
-        calendar.innerHTML = "";
-        data.forEach(title => {
-            const event = document.createElement('div');
-            event.textContent = title;
-            calendar.appendChild(event);
-});  
-})
-.catch(error => console.error('Error Fetching Title:', error) )
-}
-window.onload = fetchEvents;
 function showNextMonth() {
     currentMonth++;
     if (currentMonth > 11) {
@@ -177,7 +139,7 @@ nextButton.classList.add('nav-button');
 let currentMonth; // Declare currentMonth in the global scope
 let currentYear;  // Declare currentYear in the global scope
 
-
+document.addEventListener('DOMContentLoaded', function() {
     const date = new Date();
     currentMonth = date.getMonth(); // Initialize currentMonth
     currentYear = date.getFullYear(); // Initialize currentYear
@@ -209,4 +171,5 @@ ChangeBackground(currentMonth);
                 });             
     });
 
+});
 
