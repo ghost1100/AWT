@@ -73,6 +73,7 @@ ul li {
     display: flex;
     align-items: center;
     justify-content: space-between;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 /*Added the bottom bit to avoid over flowing the container just for presentation*/
     word-wrap: break-word;
     overflow-wrap: break-word;
