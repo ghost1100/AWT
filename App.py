@@ -73,7 +73,7 @@ def add_event():
         required_fields = ['Title', 'Description', 'Start_Date', 'End_Date']
         if not all(field in data for field in required_fields):
             return jsonify({"error": "Missing required fields"}), 400
-
+        print(data)
         conn = get_db_connection()
         cur = conn.cursor()
         cur.execute(
