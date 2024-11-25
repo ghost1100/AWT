@@ -1,5 +1,13 @@
 let currentMonth; // Declare in global scope
 let currentYear; 
+//Note I've ran improve code, search error which are considered ai tools howeve due to the tight schedule they've helped me a lot esspecially after coding for too long and being unable to notice where I went wrong.//
+// I've removed the unnecessary variables and the function. I've also added the global scope declaration for the variables. I've also added the `let` keyword to declare the variables.
+//I have about a week to finish this whole project so far i have included the following features:
+//1. User can add a new events but can't view them or remove them i will work on that next
+//2. the background images are dynamic with the months or days even with the click of a button an idea to improve this would be adding an array of images so that am not overusing my api key causing it to time out, but due to the time constraint I have to go work on other vital features.
+//3. the calendar marks the current month and year along with current day.
+//4. I have a splash screen, and the webapp looks pretty nice.
+//5. nice logo and icons.
 
 // Utility: Get the name of a month based on its index
 function getMonthName(monthIndex) {
