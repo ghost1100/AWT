@@ -16,11 +16,11 @@ const dueDate = dueDateInput.value;
     li.textContent = inputBox.value;
 
     let span = document.createElement("span");
-    span.innerHTML = "\u00d7";
+    span.innerHTML = "\u00d7" + " " + dueDate;
     li.appendChild(span);
 
     listContainer.appendChild(li);
-
+    dueDateInput.value="";
     inputBox.value = "";
     saveData();
 }
