@@ -8,8 +8,8 @@ conn.execute("""CREATE TABLE IF NOT EXISTS Events(
              ID INTEGER PRIMARY KEY AUTOINCREMENT,
              Title text NOT NULL,
              Description text NOT NULL,
-            Start_Date date, 
-             End_Date date
+            Start_Date datetime, 
+             End_Date datetime
              );""")
 conn.execute("""CREATE TABLE IF NOT EXISTS ToDo(
              TaskID INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -21,4 +21,5 @@ conn.execute("""CREATE TABLE IF NOT EXISTS ToDo(
              FOREIGN KEY (EventID) REFERENCES Events(ID)  ON DELETE CASCADE ON UPDATE CASCADE
              );""")
 print ("Tables Created Successfully")
+conn.commit()
 conn.close()
