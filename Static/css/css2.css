@@ -62,7 +62,7 @@ button {
 ul li {
     list-style: none;
     font-size: 17px;
-    padding: 12px 8px 12px; 
+    padding: 12px 40px 12px 50px;
     user-select: none;
     cursor: pointer;
     position: relative;
@@ -86,9 +86,10 @@ ul li::before {
 }
 
 ul li.checked {
-    color: #555;
+    color: #000000;/*Controls the lists text colour*/
     text-decoration: line-through;
-    padding-left: 10%;
+   
+ 
 }
 
 
@@ -109,6 +110,7 @@ ul li span {
     background-color: #f6f6f6; /*changes the X background colour*/
     border-radius: 50%;
     cursor: pointer;
+    position: absolute;
 }
 
 ul li span:hover {
