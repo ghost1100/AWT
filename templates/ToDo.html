@@ -44,5 +44,15 @@
         </nav>
  
     </div>
+<div class="ListContainer">
+    <div class="ToDo-app">
+        <h2>To Do List<img src="{{ url_for('static', filename='images/Notebook.png') }}"></h2>
+        <div class="row">
+            <input type="text" id="input-box" placeholder="Add Items">
+            <button id="add-btn" onclick="addTask()">Add</button> <!--in the addtask function later reset the field as well so that the input box is more responsive-->
+        </div>
+    </div>
+</div>
+
 </body>
 </html>
