@@ -1,7 +1,11 @@
 // Defining addTask globally
 function addTask() {
     const inputBox = document.getElementById("input-box");
+    const dueDateInput = document.getElementById("due-date-picker");
     const listContainer = document.getElementById("list-container");
+
+const task = inputBox.value.trim(); // idk if this is neceseray
+const dueDate = dueDateInput.value;
 
     if (!inputBox.value.trim()) {
         alert("Please enter a task");

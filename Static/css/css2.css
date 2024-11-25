@@ -70,6 +70,9 @@ ul li {
     background-color: #ffffff;
     border-radius: 6px;
     margin-bottom: 10px; 
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 /*Added the bottom bit to avoid over flowing the container just for presentation*/
     word-wrap: break-word;
     overflow-wrap: break-word;
@@ -120,4 +123,35 @@ ul li span {
 
 ul li span:hover {
     background: #d31414; /*changes the X background colour on hover*/
+}
+
+input[type="date"]{
+    margin-left: 10px;
+    padding: 8px;
+    border: 1px solid #e1dfdf;
+    border-radius: 5px;
+}
+
+
+ul li .due-date{
+    font-size: 14px;
+    color: #888888;
+    margin-right: 10px;
+}
+
+ul li .delete-btn{
+    position: relative;
+    width: 30px;
+    height: 30px;
+    font-size: 29px;
+    color: #3f3e3f;
+    line-height: 30px;
+    text-align: center;
+    background-color: #e4dede;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+ul li .delete-btn:hover{
+     background: #d31414;
 }

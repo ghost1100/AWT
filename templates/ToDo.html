@@ -51,11 +51,12 @@
         <h2>To Do List<img src="{{ url_for('static', filename='images/Notebook.png') }}"></h2>
         <div class="row">
             <input type="text" id="input-box" placeholder="Add Items">
+            <input type="date" id="due-date-picker"/>
             <button onclick="addTask()">Add</button> <!--in the addtask function later reset the field as well so that the input box is more responsive/done! but nothing works!!??-->
         </div>
         <ul id="list-container">
-            <li  style="background-image: url('/static/images/Unchecked.png');"></li>
-            <li  style="background-image: url('/static/images/Checked.png');"></li>
+            <!-- <li  style="background-image: url('/static/images/Unchecked.png');"></li>
+            <li  style="background-image: url('/static/images/Checked.png');"></li> -->
         </ul>
     </div>
 </div>
