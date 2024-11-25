@@ -158,13 +158,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 //Creating an object to send it to the back end.. app.py
                 const Event = {
-                    "EventTitle": EventTitle,
-                    "EventDescription": EventDescription,
-                    "StartDate": StartDate,
-                    "EndDate": EndDate
+                    "Title": EventTitle,
+                    "Description": EventDescription,
+                    "Start_Date": StartDate,
+                    "End_Date": EndDate
                 };
                 //Sending the data to the backend using fetch API
-                fetch('/createEvent', {
+                fetch('/add_event', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -174,8 +174,8 @@ document.addEventListener('DOMContentLoaded', function () {
                         .then(data =>{
                             console.log("Event Saved Successfully: ",data)
                         .then(response => response.json())
-                        .then(data => console.log(data))
-                        .catch(error => console.error('Error:', error))
+                        .then(data => console.log("Resonse From Server: ",data))
+                        .catch(error => console.error('Error: ', error))
                         .finally(() => {
                             // Clear the form fields after submission
                             document.getElementById("EventTitle").value = "";
