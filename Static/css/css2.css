@@ -70,6 +70,11 @@ ul li {
     background-color: #ffffff;
     border-radius: 6px;
     margin-bottom: 10px; 
+/*Added the bottom bit to avoid over flowing the container just for presentation*/
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
+    white-space: pre-wrap;
 }
 
 ul li::before {
