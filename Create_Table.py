@@ -13,12 +13,9 @@ conn.execute("""CREATE TABLE IF NOT EXISTS Events(
              );""")
 conn.execute("""CREATE TABLE IF NOT EXISTS ToDo(
              TaskID INTEGER PRIMARY KEY AUTOINCREMENT,
-             TaskDescription Text NOT NULL,
-             DueDate DATE,
-             Priority  Text CHECK(Priority IN  ('High', 'Medium', 'Low')),
-             Status  Text CHECK(Status IN  ('Not Started', 'In Progress', 'Completed')),
-             EventID  INTEGER,
-             FOREIGN KEY (EventID) REFERENCES Events(ID)  ON DELETE CASCADE ON UPDATE CASCADE
+             Description Text NOT NULL,
+             DueDate DATETIME,
+             Status BOOLEAN DEFAULT FALSE,
              );""")
 print ("Tables Created Successfully")
 conn.commit()
