@@ -1,39 +1,47 @@
-const inputBox = document.getElementById("input-box");
-const listContainer = document.getElementById("list-container");
+// Defining addTask globally
+function addTask() {
+    const inputBox = document.getElementById("input-box");
+    const listContainer = document.getElementById("list-container");
 
-function addTask(){
-    if (inputBox.value ===''){
+    if (!inputBox.value.trim()) {
         alert("Please enter a task");
+        return;
+    }
 
-    }
-    else{
-        let li = document.createElement("li");
-        li.innerHTML = inputBox.value;
-        listContainer.appendChild(li);
-        let span = document.createElement("span");
-        span.innerHTML = "\u00d7";
-        li.appendChild(span);
-    }
+    let li = document.createElement("li");
+    li.textContent = inputBox.value;
+
+    let span = document.createElement("span");
+    span.innerHTML = "\u00d7";
+    li.appendChild(span);
+
+    listContainer.appendChild(li);
+
     inputBox.value = "";
     saveData();
 }
 
-listContainer.addEventListener("click", function(e){
-    if(e.target.tagName == "LI"){
-        e.target.classList.toggle("checked");
-        saveData();
-    }
-    else if (e.target.tagName == "SPAN"){
-  e.target.parentElement.remove();
-  saveData();
-    }
-},false);
+// Save and load functions inside DOMContentLoaded
+document.addEventListener("DOMContentLoaded", function () {
+    const listContainer = document.getElementById("list-container");
 
-function saveData(){
-    localStorage.setItem("data", listContainer.innerHTML);
-}
-//in this case instead of making one function and calling it save data we will have to make three one to delete the data from db one to save it, one to check it and one to uncheck it so four not three.
-function showTask(){
-    listContainer.innerHTML = localStorage.getItem("data");
-}
-showTask();
+    function saveData() {
+        localStorage.setItem("data", listContainer.innerHTML);
+    }
+
+    function showTask() {
+        listContainer.innerHTML = localStorage.getItem("data") || "";
+    }
+
+    showTask();
+
+    listContainer.addEventListener("click", function (e) {
+        if (e.target.tagName === "LI") {
+            e.target.classList.toggle("checked");
+            saveData();
+        } else if (e.target.tagName === "SPAN") {
+            e.target.parentElement.remove();
+            saveData();
+        }
+    });
+});

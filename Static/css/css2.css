@@ -1,16 +1,15 @@
-/*Working on to do list from here on out.*/
-.ListContainer{
+.ListContainer {
     width: 100%;
     min-height: 100vh;
     background: linear-gradient(135deg, #153677, #4e085f);
     padding: 10px;
-
 }
 
-body{
+body {
     background-color: black;
 }
-.ToDo-app{
+
+.ToDo-app {
     width: 100%;
     max-width: 540px;
     background: #fff;
@@ -18,34 +17,38 @@ body{
     padding: 40px 30px 70px;
     border-radius: 10px;
 }
-.ToDo-app h2{
+
+.ToDo-app h2 {
     color: #002765;
     display: flex;
     align-items: center;
     margin-bottom: 20px;
 }
 
-.ToDo-app img{
+.ToDo-app img {
     width: 70px;
     margin-left: 10px;
 }
-.row{
+
+.row {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: #edeef0 ;
-    border-radius: 30px ;
+    background: #edeef0;
+    border-radius: 30px;
     padding-left: 20px;
     margin-left: 25px;
 }
-input{
+
+input {
     flex: 1;
     border: none;
     outline: none;
     background: transparent;
     padding: 10px;
 }
-button{
+
+button {
     border: none;
     outline: none;
     padding: 16px 50px;
@@ -55,52 +58,59 @@ button{
     cursor: pointer;
     border-radius: 40px;
 }
-ul li{
+
+ul li {
     list-style: none;
     font-size: 17px;
-    padding: 12px 8px 50px;
+    padding: 12px 8px 12px; 
     user-select: none;
     cursor: pointer;
     position: relative;
+    color: black; 
+    background-color: #ffffff;
+    border-radius: 6px;
+    margin-bottom: 10px; 
 }
-ul li::before{
-    content:'';
+
+ul li::before {
+    content: '';
     position: absolute;
     height: 28px;
     width: 28px;
     border-radius: 50%;
-    background-image: url(/Static/images/Unchecked.png);
-    /*{{ url_for('static', filename='images/Unchecked.png') }} how do i add that to this css file?? its not being proccessed by flask as a template so it would'nt work!!! ahh this is frustrating */
+    background-image: url(/static/images/Unchecked.png);
     background-size: cover;
     background-position: center;
     top: 12px;
     left: 8px;
 }
 
-ul li.checked{
-color: #555;
-text-decoration: line-through;
-
-}
-ul li.checked::before{
-    background-image: url(/Static/images/Checked.png);
-     /*{{ url_for('static', filename='images/Checked.png') }} how do i add that to this css file?? its not being proccessed by flask as a template so it would'nt work!!! ahh this is frustrating */
-}
-
-ul li span{
-    position: absolute;
-    right: 0;
-    top: 5px;
-    width: 40px;
-    top: 40px;
-    font-size: 22px;
+ul li.checked {
     color: #555;
-    line-height: 40px;
-    text-align: center;
-    border-radius: 50%;
-
-
+    text-decoration: line-through;
+    padding-left: 10%;
 }
-ul li span:hover{
-    background: #edeef0;
+
+
+ul li.checked::before {
+    background-image: url(/static/images/Checked.png);
+}
+
+ul li span {
+    position: absolute;
+    top: 5px; /* Moves the X about the lower the number the higher up the X will be */
+    right: 5px; /* Moves the X about the lower the number the further right*/
+    width: 30px;
+    height: 30px;
+    font-size: 20px;
+    color: #4b484a;/*changes the X's colour itself as in the center grey X*/
+    line-height: 30px;
+    text-align: center;
+    background-color: #f6f6f6; /*changes the X background colour*/
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+ul li span:hover {
+    background: #d31414; /*changes the X background colour on hover*/
 }
