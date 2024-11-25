@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>To-Do</title>
+  <link  rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/css2.css') }}"/>
   <link  rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/css.css') }}"/>
    <script src="{{ url_for('static', filename='js/Theme.js') }}"></script>
+   <script src="{{ url_for('static', filename='js/tdo.js') }}"></script>
    <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="Image/ Icon"/>
 </head>
 <body>
@@ -51,6 +53,11 @@
             <input type="text" id="input-box" placeholder="Add Items">
             <button id="add-btn" onclick="addTask()">Add</button> <!--in the addtask function later reset the field as well so that the input box is more responsive-->
         </div>
+        <ul id="list-container">
+            <!-- <li class="checked">Task 1</li>
+            <li>Task 2</li>
+            <li>Task 3</li> -->
+        </ul>
     </div>
 </div>
 

@@ -269,31 +269,3 @@ nav a:hover {
     font-weight: bold;
 }
 
-/*Working on to do list from here on out.*/
-.ListContainer{
-    width: 100%;
-    min-height: 100vh;
-    background: linear-gradient(135deg, #153677, #4e085f);
-    padding: 10px;
-
-}
-
-.ToDo-app{
-    width: 100%;
-    max-width: 540px;
-    background: #fff;
-    margin: 100px auto 20px;
-    padding: 40px 30px 70px;
-    border-radius: 10px;
-}
-.ToDo-app h2{
-    color: #002765;
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.ToDo-app img{
-    width: 70px;
-    margin-left: 10px;
-}
