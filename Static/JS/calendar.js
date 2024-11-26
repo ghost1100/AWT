@@ -54,7 +54,8 @@ function displayEvents(dayDiv, day, month, year) {
             deleteButton.classList.add("DeleteEvent");
             deleteButton.dataset.date = dateKey; // Bind event date
             deleteButton.dataset.index = index; // Bind event index for precise deletion
-            deleteButton.textContent = "Clear-Day";
+            deleteButton.textContent = "Delete";
+
             eventTitle.appendChild(deleteButton);
             eventsContainer.appendChild(eventTitle);
         });
@@ -63,7 +64,7 @@ function displayEvents(dayDiv, day, month, year) {
     }
 }
 
-// Attach delete button listeners dynamically to the day of the event.
+// Attach delete button listeners dynamically
 function attachDeleteEventListeners() {
     document.querySelectorAll(".DeleteEvent").forEach(button => {
         button.addEventListener("click", function () {
@@ -73,7 +74,7 @@ function attachDeleteEventListeners() {
             // Remove event from the event store
             deleteEventFromStore(eventDate, eventIndex);
 
-            // Send DELETE request to the backend// if event isnt deleted the issue is either here or in the app.py
+            // Send DELETE request to the backend
             fetch('/delete_event', {
                 method: 'POST',
                 headers: {
@@ -220,7 +221,7 @@ function fetchEvents() {
         })
         .then(data => {
             data.forEach(event => {
-                const eventDate = event.Start_Date.split("T")[0]; // Grabs YYYY-MM-DD
+                const eventDate = event.Start_Date.split("T")[0]; // Extract YYYY-MM-DD
                 if (!eventStore.has(eventDate)) {
                     eventStore.set(eventDate, []);
                 }
@@ -229,7 +230,7 @@ function fetchEvents() {
                     Start_Date: event.Start_Date
                 });
             });
-            createCalendar(currentMonth, currentYear); // Refreshes the calendar with events
+            createCalendar(currentMonth, currentYear); // Refresh calendar with events
         })
         .catch(error => console.error("Error fetching events:", error));
 }
@@ -278,7 +279,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const eventData = {
                 Title: document.getElementById("EventTitle").value,
                 Description: document.getElementById("EventDescription").value,
-                Start_Date: document.getElementById("StartDate").value,
+                Start_Date: document.getElementById("StartDate").value
             };
 
             // Add to the event store
