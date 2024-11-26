@@ -95,7 +95,7 @@ def add_event():
 
 # saving, deleting and showing for todo list.
 @app.route('/add_task', methods=['POST'])
-def add_event():
+def add_task():
     """Add a new event to the database."""
     try:
         data = request.json
@@ -124,17 +124,17 @@ def delete_task():
     """
     try:
         data = request.json
-        id = data['id']
+        id = data['TaskID']
         conn = get_db_connection()
         cur = conn.cursor()
-        cur.execute("DELETE FROM ToDo WHERE id = ?", (id,))
+        cur.execute("DELETE FROM ToDo WHERE TaskID = ?", (id,))
         conn.commit()
         conn.close
         return jsonify({"message": "Task deleted successfully"}), 200
     except sqlite3.Error as e:
         return jsonify({"error": "Database error", "message": str(e)}), 500
     
-    
+
     
 @app.route('/show_task', methods=['GET'])
 def show_task():
