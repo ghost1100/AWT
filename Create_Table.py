@@ -11,11 +11,12 @@ conn.execute("""CREATE TABLE IF NOT EXISTS Events(
             Start_Date datetime, 
              End_Date datetime
              );""")
+
 conn.execute("""CREATE TABLE IF NOT EXISTS ToDo(
              TaskID INTEGER PRIMARY KEY AUTOINCREMENT,
              Description Text NOT NULL,
-             DueDate DATETIME,
-             Status BOOLEAN DEFAULT FALSE,
+             DueDate DATE,
+             Status BOOLEAN DEFAULT FALSE
              );""")
 print ("Tables Created Successfully")
 conn.commit()
