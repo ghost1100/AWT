@@ -91,6 +91,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({ TaskID: taskId, Status: newStatus })
+                
             })
                 .then(response => response.json())
                 .then(data => {
@@ -125,7 +126,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    loadTasks(); // Load tasks on page load
+    loadTasks(); // Load tasks on page reload
 });
 
 // Added a function to handle errors
