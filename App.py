@@ -89,6 +89,68 @@ def add_event():
     except sqlite3.Error as e:
         return jsonify({"error": "Database error", "message": str(e)}), 500
 
+
+
+
+
+# saving, deleting and showing for todo list.
+@app.route('/add_task', methods=['POST'])
+def add_event():
+    """Add a new event to the database."""
+    try:
+        data = request.json
+        required_fields = ['Description', 'DueDate', 'Status']
+        if not all(field in data for field in required_fields):
+            return jsonify({"error": "Missing required fields"}), 400
+        print(data)
+        conn = get_db_connection()
+        cur = conn.cursor()
+        cur.execute(
+            """INSERT INTO ToDo (Description, DueDate, Status) VALUES (?, ?, ?)""",
+            (data['Description'], data['DueDate'], data['Status'])
+        )
+        conn.commit()
+        conn.close()
+        return jsonify({"message": "Event added successfully"}), 201
+    except sqlite3.Error as e:
+        return jsonify({"error": "Database error", "message": str(e)}), 500
+    
+
+@app.route('/delete_task', methods=['POST'])
+def delete_task():
+    """Delete a task from the database
+    :param id: id of the task to delete
+    :return: JSON response with success message
+    """
+    try:
+        data = request.json
+        id = data['id']
+        conn = get_db_connection()
+        cur = conn.cursor()
+        cur.execute("DELETE FROM ToDo WHERE id = ?", (id,))
+        conn.commit()
+        conn.close
+        return jsonify({"message": "Task deleted successfully"}), 200
+    except sqlite3.Error as e:
+        return jsonify({"error": "Database error", "message": str(e)}), 500
+    
+    
+    
+@app.route('/show_task', methods=['GET'])
+def show_task():
+    """Show all tasks from the database"""
+    try:
+        conn = get_db_connection()
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM ToDo")
+        tasks = cur.fetchall()
+        conn.close
+        return jsonify(tasks), 200
+    except sqlite3.Error as e:
+        return jsonify({"error": "Database error", "message": str(e)}), 500
+    
+    
+
 # Main Entry Point
 if __name__ == '__main__':
     app.run(debug=True)#change this to false later...
