@@ -72,7 +72,9 @@ def get_calendar_events():
     except sqlite3.Error as e:
         return jsonify({"error": "Database error", "message": str(e)}), 500
     
-    #a functionality to delete events from the database this is where the fault lies 
+
+
+
 @app.route('/delete_event', methods=['POST'])
 def delete_event():
     """Delete events from the database based on their date."""
@@ -83,21 +85,29 @@ def delete_event():
             return jsonify({"error": "Missing 'Date' in request payload"}), 400
 
         try:
-            parsed_date = datetime.strptime(event_date, '%Y-%m-%d').date()  # Adjust format if needed
+            # Ensure the date format is correct: YYYY-MM-DD
+            parsed_date = datetime.strptime(event_date, '%Y-%m-%d').date()
         except ValueError:
             return jsonify({"error": "Invalid date format. Use 'YYYY-MM-DD'."}), 400
 
         conn = get_db_connection()
         cur = conn.cursor()
-
-        cur.execute("DELETE FROM Events WHERE Date = ?", (parsed_date,))
-        
+        # Debug: Print the query and the date to ensure it's correct
+        print(f"Deleting events on {parsed_date}")
+        cur.execute("DELETE FROM Events WHERE Start_Date = ?", (parsed_date,))
         conn.commit()
+
+        # Check how many rows were affected
+        rows_deleted = cur.rowcount
         conn.close()
 
+        if rows_deleted == 0:
+            return jsonify({"message": f"No events found for {event_date}."}), 404
         return jsonify({"message": f"Events on {event_date} deleted successfully"}), 200
+
     except sqlite3.Error as e:
         return jsonify({"error": "Database error", "message": str(e)}), 500
+
 
 
 
