@@ -1,3 +1,6 @@
+#pip install requests
+#pip install sqlite3
+#pip install Flask
 from flask import Flask, jsonify, render_template, request
 import sqlite3
 import requests
@@ -6,17 +9,17 @@ import requests
 UNSPLASH_API_KEY = "nLfSlOoclheYYtRhGHZi5FIBixRMjTJe7Ra6BsVbKEg"
 UNSPLASH_API_URL = "https://api.unsplash.com/photos/random?query={category}&orientation=landscape&client_id=" + UNSPLASH_API_KEY
 
-# Initialize Flask App
+# Initializes the Flask App
 app = Flask(__name__)
 
 # Utility Functions
 def get_db_connection():
-    """Establishes and returns a connection to the SQLite database."""
+    #creates and returns connection
     conn = sqlite3.connect('Database.db')
     conn.row_factory = sqlite3.Row
     return conn
 
-# Routes
+# page routing
 @app.route('/')
 def splash_screen():
     return render_template('SplashScreen.html')
@@ -33,6 +36,8 @@ def todo():
 def weather():
     return render_template('Weather.html')
 
+
+#unsplash api routing grabs a random image, its displayed through the js.
 @app.route('/get_random_image')
 def get_random_image():
     """Fetch a random image from the Unsplash API."""
@@ -50,6 +55,8 @@ def get_random_image():
     except requests.exceptions.RequestException as e:
         return jsonify({"error": "Request error", "message": str(e)}), 500
 
+
+#meant to retrive the events and display them on the home page.... working progress
 @app.route('/get_calendar_event')
 def get_calendar_event():
     """Retrieve event titles from the database."""
@@ -63,7 +70,9 @@ def get_calendar_event():
         return jsonify(titles)
     except sqlite3.Error as e:
         return jsonify({"error": "Database error", "message": str(e)}), 500
+    
 
+#adds the events into DB.
 @app.route('/add_event', methods=['POST'])
 def add_event():
     """Add a new event to the database."""
@@ -87,7 +96,9 @@ def add_event():
         return jsonify({"message": "Event added successfully"}), 201
     except sqlite3.Error as e:
         return jsonify({"error": "Database error", "message": str(e)}), 500
+    
 
+    #ToDo List starts here.
 @app.route('/add_task', methods=['POST'])
 def add_task():
     """Add a new task to the database."""
@@ -101,7 +112,7 @@ def add_task():
         cur = conn.cursor()
         cur.execute(
             """INSERT INTO ToDo (Description, DueDate, Status) VALUES (?, ?, ?)""",
-            (data['Description'], data['DueDate'], bool(data['Status']))  # Convert Status to boolean
+            (data['Description'], data['DueDate'], bool(data['Status']))  
         )
         conn.commit()
         conn.close()
@@ -114,7 +125,7 @@ def delete_task():
     """Delete a task from the database."""
     try:
         data = request.json
-        task_id = data.get('TaskID')  # Ensure TaskID is provided
+        task_id = data.get('TaskID') 
         if not task_id:
             return jsonify({"error": "TaskID is required"}), 400
         
