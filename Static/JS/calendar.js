@@ -276,7 +276,10 @@ document.addEventListener('DOMContentLoaded', function () {
     if (eventForm) {
         eventForm.addEventListener("submit", function (event) {
             event.preventDefault();
-
+            const eventForm = document.getElementById("EventForm");
+            if (eventForm) {
+                eventForm.style.display = "none";
+            }
             const eventData = {
                 Title: document.getElementById("EventTitle").value,
                 Description: document.getElementById("EventDescription").value,
@@ -307,6 +310,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 .finally(() => {
                     eventForm.reset(); // Reset form fields
                     eventForm.style.display = "none";
+                    
                 });
         });
     }
