@@ -1,13 +1,7 @@
-let currentMonth; // Declare in global scope
-let currentYear; 
-//Note I've ran improve code, search error which are considered ai tools howeve due to the tight schedule they've helped me a lot esspecially after coding for too long and being unable to notice where I went wrong.//
-// I've removed the unnecessary variables and the function. I've also added the global scope declaration for the variables. I've also added the `let` keyword to declare the variables.
-//I have about a week to finish this whole project so far i have included the following features:
-//1. User can add a new events but can't view them or remove them i will work on that next
-//2. the background images are dynamic with the months or days even with the click of a button an idea to improve this would be adding an array of images so that am not overusing my api key causing it to time out, but due to the time constraint I have to go work on other vital features.
-//3. the calendar marks the current month and year along with current day.
-//4. I have a splash screen, and the webapp looks pretty nice.
-//5. nice logo and icons.
+// Global variables
+let currentMonth; // Current month in global scope
+let currentYear;
+let eventStore = new Map(); // To store events by date
 
 // Utility: Get the name of a month based on its index
 function getMonthName(monthIndex) {
@@ -18,32 +12,60 @@ function getMonthName(monthIndex) {
     return monthNames[monthIndex];
 }
 
-// Utility: Create a calendar for a given/current month and year
+// Utility: Format date as YYYY-MM-DD
+function formatDate(year, month, day) {
+    return `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+}
+
+// Function to add events to the store
+function addEventToStore(eventData) {
+    const eventDate = eventData.Start_Date; // Format: YYYY-MM-DD
+    if (!eventStore.has(eventDate)) {
+        eventStore.set(eventDate, []);
+    }
+    eventStore.get(eventDate).push(eventData);
+}
+
+// Function to display events inside a day's div
+function displayEvents(dayDiv, day, month, year) {
+    const dateKey = formatDate(year, month, day);
+    if (eventStore.has(dateKey)) {
+        const events = eventStore.get(dateKey);
+        const eventsContainer = document.createElement("div");
+        eventsContainer.classList.add("events-container");
+
+        events.forEach(event => {
+            const eventTitle = document.createElement("div");
+            eventTitle.classList.add("event-title");
+            eventTitle.textContent = event.Title;
+            eventsContainer.appendChild(eventTitle);
+        });
+
+        dayDiv.appendChild(eventsContainer);
+    }
+}
+
+// Function to create the calendar for a given month and year
 function createCalendar(month, year) {
     const calendar = document.getElementById("calendar");
-    calendar.innerHTML = ""; // Clear the previous calendar content
+    calendar.innerHTML = ""; // Clear previous content
 
-    // Displaying the months names and year
+    // Displaying the month and year
     const monthNameDiv = document.createElement("div");
     monthNameDiv.textContent = getMonthName(month) + " " + year;
-    monthNameDiv.classList.add("month-title"); // For styling
+    monthNameDiv.classList.add("month-title");
     calendar.appendChild(monthNameDiv);
 
-    // Spacer for better visuals
-    const spacer = document.createElement("div");
-    spacer.style.marginBottom = "10px";
-    calendar.appendChild(spacer);
-
-    // Adding the day names (Sunday to Saturday)
+    // Adding day names (Sun to Sat)
     const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     dayNames.forEach(dayName => {
         const dayNameDiv = document.createElement("div");
         dayNameDiv.textContent = dayName;
-        dayNameDiv.classList.add("day-name"); // For styling
+        dayNameDiv.classList.add("day-name");
         calendar.appendChild(dayNameDiv);
     });
 
-    // Calculates days in the current month and first day of the month
+    // Calculate days in the month and the first day of the month
     const daysInMonth = new Date(year, month + 1, 0).getDate();
     const firstDay = new Date(year, month, 1).getDay();
     const currentDate = new Date();
@@ -51,7 +73,7 @@ function createCalendar(month, year) {
     // Add empty divs for the days before the first day of the month
     for (let i = 0; i < firstDay; i++) {
         const emptyDiv = document.createElement("div");
-        emptyDiv.classList.add("empty-day"); // For styling
+        emptyDiv.classList.add("empty-day");
         calendar.appendChild(emptyDiv);
     }
 
@@ -71,6 +93,9 @@ function createCalendar(month, year) {
             openEventForm(day, month, year);
         });
 
+        // Display events for this day
+        displayEvents(dayDiv, day, month, year);
+
         calendar.appendChild(dayDiv);
     }
 }
@@ -80,11 +105,11 @@ function openEventForm(day, month, year) {
     const eventForm = document.getElementById("EventForm");
     eventForm.style.display = "block";
     document.getElementById("eventday").value = day;
-    document.getElementById("eventmonth").value = month;
+    document.getElementById("eventmonth").value = month + 1; // Month is zero-indexed
     document.getElementById("eventyear").value = year;
 }
 
-// Function to change the background based on the month
+// Function to change the background dynamically based on the month
 function changeBackground(month) {
     const seasons = ["Winter", "Spring", "Summer", "Autumn"];
     const season = seasons[Math.floor(month / 3)];
@@ -134,13 +159,39 @@ function showNextMonth() {
     changeBackground(currentMonth);
 }
 
-// Main: Initialize the calendar on page load using the dom content loaded.
+function fetchEvents() {
+    fetch('/get_calendar_events')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            data.forEach(event => {
+                const eventDate = event.Start_Date.split("T")[0]; // Extract YYYY-MM-DD
+                if (!eventStore.has(eventDate)) {
+                    eventStore.set(eventDate, []);
+                }
+                eventStore.get(eventDate).push({
+                    Title: event.Title,
+                    Start_Date: event.Start_Date
+                });
+            });
+            createCalendar(currentMonth, currentYear); // Refresh calendar with events
+        })
+        .catch(error => console.error("Error fetching events:", error));
+}
+
+
+// Main: Initialize the calendar on page load
 document.addEventListener('DOMContentLoaded', function () {
     const date = new Date();
     currentMonth = date.getMonth();
     currentYear = date.getFullYear();
 
     createCalendar(currentMonth, currentYear);
+    fetchEvents();
     changeBackground(currentMonth);
 
     // Adding the navigation buttons to the page
@@ -167,7 +218,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Event form submission implementing the server logic here 
+    // Event form submission
     const eventForm = document.getElementById('eventForm');
     if (eventForm) {
         eventForm.addEventListener("submit", function (event) {
@@ -179,6 +230,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 Start_Date: document.getElementById("StartDate").value,
                 End_Date: document.getElementById("EndDate").value
             };
+
+            // Add to the event store
+            addEventToStore(eventData);
 
             fetch('/add_event', {
                 method: 'POST',
@@ -195,10 +249,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 })
                 .then(data => {
                     console.log("Event added successfully:", data);
+                    createCalendar(currentMonth, currentYear); // Refresh calendar
                 })
                 .catch(error => console.error("Error adding event:", error))
                 .finally(() => {
                     eventForm.reset(); // Reset form fields
+                    eventForm.style.display = "none";
                 });
         });
     }
