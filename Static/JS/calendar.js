@@ -26,6 +26,16 @@ function addEventToStore(eventData) {
     eventStore.get(eventDate).push(eventData);
 }
 
+// Function to delete events from the store
+function deleteEventFromStore(eventDate, eventIndex) {
+    if (eventStore.has(eventDate)) {
+        const events = eventStore.get(eventDate);
+        events.splice(eventIndex, 1); // Remove specific event
+        if (events.length === 0) {
+            eventStore.delete(eventDate); // Remove date if no events left
+        }
+    }
+}
 // Function to display events inside a day's div
 function displayEvents(dayDiv, day, month, year) {
     const dateKey = formatDate(year, month, day);
@@ -34,15 +44,54 @@ function displayEvents(dayDiv, day, month, year) {
         const eventsContainer = document.createElement("div");
         eventsContainer.classList.add("events-container");
 
-        events.forEach(event => {
+        events.forEach((event, index) => {
             const eventTitle = document.createElement("div");
             eventTitle.classList.add("event-title");
             eventTitle.textContent = event.Title;
+
+            // Create delete button for this event
+            const deleteButton = document.createElement("button");
+            deleteButton.classList.add("DeleteEvent");
+            deleteButton.dataset.date = dateKey; // Bind event date
+            deleteButton.dataset.index = index; // Bind event index for precise deletion
+            deleteButton.textContent = "Delete";
+
+            eventTitle.appendChild(deleteButton);
             eventsContainer.appendChild(eventTitle);
         });
 
         dayDiv.appendChild(eventsContainer);
     }
+}
+
+// Attach delete button listeners dynamically
+function attachDeleteEventListeners() {
+    document.querySelectorAll(".DeleteEvent").forEach(button => {
+        button.addEventListener("click", function () {
+            const eventDate = button.dataset.date;
+            const eventIndex = button.dataset.index;
+
+            // Remove event from the event store
+            deleteEventFromStore(eventDate, eventIndex);
+
+            // Send DELETE request to the backend
+            fetch('/delete_event', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ Date: eventDate })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data.message || "Event deleted successfully.");
+                })
+                .catch(error => console.error("Error deleting event:", error))
+                .finally(() => {
+                    createCalendar(currentMonth, currentYear); // Refresh the calendar
+                });
+        });
+    });
 }
 
 // Function to create the calendar for a given month and year
@@ -98,6 +147,9 @@ function createCalendar(month, year) {
 
         calendar.appendChild(dayDiv);
     }
+
+    // Attach delete event listeners to the buttons
+    attachDeleteEventListeners();
 }
 
 // Function to display the event form
@@ -194,7 +246,7 @@ document.addEventListener('DOMContentLoaded', function () {
     fetchEvents();
     changeBackground(currentMonth);
 
-    // Adding the navigation buttons to the page
+    // Adding navigation buttons
     const prevButton = document.createElement('button');
     prevButton.textContent = '<- Previous Month';
     prevButton.classList.add('nav-button');
