@@ -269,3 +269,26 @@ nav a:hover {
     font-weight: bold;
 }
 
+.add-event-button {
+    margin: 20px;
+    padding: 20px 20px;
+    font-size: 19px;
+    background-color: #007bff;
+    color: white;
+    border: yellow;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.add-event-button:hover {
+    background-color: #0056b3;
+}
+
+.DeleteEvent{
+    background-color: #ff0000;
+
+}
+.DeleteEvent:hover {
+    background-color: #6f1d1d;
+    border-top: #000 1px;
+    border-bottom: #000 1px;
+}
