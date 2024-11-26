@@ -56,21 +56,35 @@ def get_random_image():
         return jsonify({"error": "Request error", "message": str(e)}), 500
 
 
-#meant to retrive the events and display them on the home page.... working progress
-@app.route('/get_calendar_event')
-def get_calendar_event():
-    """Retrieve event titles from the database."""
+#meant to retrive the events and display them on the home page.... 
+@app.route('/get_calendar_events', methods=['GET'])
+def get_calendar_events():
+    """Retrieve all events from the database."""
     try:
         conn = get_db_connection()
         cur = conn.cursor()
-        cur.execute("SELECT Title FROM Events")
+        cur.execute("SELECT Title, Start_Date FROM Events")
         rows = cur.fetchall()
-        titles = [row["Title"] for row in rows]
+        events = [{"Title": row["Title"], "Start_Date": row["Start_Date"]} for row in rows]
         conn.close()
-        return jsonify(titles)
+        return jsonify(events)
     except sqlite3.Error as e:
         return jsonify({"error": "Database error", "message": str(e)}), 500
     
+    #time to add a functionality to delete events from the database
+@app.route('/delete_event', methods=['POST'])
+def delete_event():
+        """Delete an event from the database."""
+        try:
+            conn = get_db_connection()
+            cur = conn.cursor()
+            cur.execute("DELETE FROM Events WHERE Title = ?", [request.json['Title']])
+            conn.commit()
+            conn.close
+            return jsonify({"message": "Event deleted"}), 200
+        except sqlite3.Error as e:
+            return jsonify({"error": "Database error", "message": str(e)}), 500
+
 
 #adds the events into DB.
 @app.route('/add_event', methods=['POST'])
