@@ -72,7 +72,7 @@ def get_calendar_events():
     except sqlite3.Error as e:
         return jsonify({"error": "Database error", "message": str(e)}), 500
     
-    #a functionality to delete events from the database
+    #a functionality to delete events from the database this is where the fault lies 
 @app.route('/delete_event', methods=['POST'])
 def delete_event():
     """Delete events from the database based on their date."""
@@ -116,7 +116,7 @@ def add_event():
         cur.execute(
             """
             INSERT INTO Events (Title, Description, Start_Date)
-            VALUES (?, ?, ?, ?)
+            VALUES (?, ?, ?)
             """,
             (data['Title'], data['Description'], data['Start_Date'])
         )
