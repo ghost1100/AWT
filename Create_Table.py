@@ -8,8 +8,7 @@ conn.execute("""CREATE TABLE IF NOT EXISTS Events(
              ID INTEGER PRIMARY KEY AUTOINCREMENT,
              Title text NOT NULL,
              Description text NOT NULL,
-            Start_Date datetime, 
-             End_Date datetime
+            Start_Date datetime
              );""")
 
 conn.execute("""CREATE TABLE IF NOT EXISTS ToDo(

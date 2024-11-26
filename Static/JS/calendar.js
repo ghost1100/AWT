@@ -280,7 +280,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 Title: document.getElementById("EventTitle").value,
                 Description: document.getElementById("EventDescription").value,
                 Start_Date: document.getElementById("StartDate").value,
-                End_Date: document.getElementById("EndDate").value
             };
 
             // Add to the event store

@@ -107,7 +107,7 @@ def add_event():
     """Add a new event to the database."""
     try:
         data = request.json
-        required_fields = ['Title', 'Description', 'Start_Date', 'End_Date']
+        required_fields = ['Title', 'Description', 'Start_Date']
         if not all(field in data for field in required_fields):
             return jsonify({"error": "Missing required fields"}), 400
         
@@ -115,10 +115,10 @@ def add_event():
         cur = conn.cursor()
         cur.execute(
             """
-            INSERT INTO Events (Title, Description, Start_Date, End_Date)
+            INSERT INTO Events (Title, Description, Start_Date)
             VALUES (?, ?, ?, ?)
             """,
-            (data['Title'], data['Description'], data['Start_Date'], data['End_Date'])
+            (data['Title'], data['Description'], data['Start_Date'])
         )
         conn.commit()
         conn.close()
