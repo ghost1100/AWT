@@ -136,21 +136,22 @@ function createCalendar(month, year) {
         if (day === currentDate.getDate() && month === currentDate.getMonth() && year === currentDate.getFullYear()) {
             dayDiv.classList.add("current-day");
         }
-
-        // Add click event to open the event form
-        dayDiv.addEventListener('click', function () {
-            openEventForm(day, month, year);
-        });
-
         // Display events for this day
         displayEvents(dayDiv, day, month, year);
 
         calendar.appendChild(dayDiv);
     }
-
     // Attach delete event listeners to the buttons
     attachDeleteEventListeners();
 }
+
+const addEventButton = document.createElement('button');
+addEventButton.textContent = 'Add Event';
+addEventButton.classList.add('add-event-button');
+addEventButton.addEventListener('click', () => {
+    openEventForm(null,null,null);
+});
+document.body.appendChild(addEventButton);
 
 // Function to display the event form
 function openEventForm(day, month, year) {
