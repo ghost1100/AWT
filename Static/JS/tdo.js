@@ -4,7 +4,7 @@ function addTask() {
     const dueDateInput = document.getElementById("due-date-picker");
     const listContainer = document.getElementById("list-container");
 
-const task = inputBox.value.trim(); // idk if this is neceseray
+const task = inputBox.value.trim();
 const dueDate = dueDateInput.value;
 
     if (!inputBox.value.trim()) {
@@ -13,13 +13,21 @@ const dueDate = dueDateInput.value;
     }
 
     let li = document.createElement("li");
-    li.textContent = inputBox.value;
+    if (!dueDate){
+        li.textContent = inputBox.value;
+    }else{
+        li.textContent = inputBox.value +"\n DueDate: "+ dueDate;
+    }
+    
 
     let span = document.createElement("span");
-    span.innerHTML = "\u00d7" + " " + dueDate;
-    li.appendChild(span);
+    span.innerHTML = "\u00d7";
 
+    
+    li.appendChild(span);
     listContainer.appendChild(li);
+
+
     dueDateInput.value="";
     inputBox.value = "";
     saveData();
