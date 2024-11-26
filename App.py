@@ -4,6 +4,7 @@
 from flask import Flask, jsonify, render_template, request
 import sqlite3
 import requests
+from datetime import datetime
 
 # API Keys
 UNSPLASH_API_KEY = "nLfSlOoclheYYtRhGHZi5FIBixRMjTJe7Ra6BsVbKEg"
@@ -71,19 +72,33 @@ def get_calendar_events():
     except sqlite3.Error as e:
         return jsonify({"error": "Database error", "message": str(e)}), 500
     
-    #time to add a functionality to delete events from the database
+    #a functionality to delete events from the database
 @app.route('/delete_event', methods=['POST'])
 def delete_event():
-        """Delete an event from the database."""
+    """Delete events from the database based on their date."""
+    try:
+        # Validate and parse the date
+        event_date = request.json.get('Date')
+        if not event_date:
+            return jsonify({"error": "Missing 'Date' in request payload"}), 400
+
         try:
-            conn = get_db_connection()
-            cur = conn.cursor()
-            cur.execute("DELETE FROM Events WHERE Title = ?", [request.json['Title']])
-            conn.commit()
-            conn.close
-            return jsonify({"message": "Event deleted"}), 200
-        except sqlite3.Error as e:
-            return jsonify({"error": "Database error", "message": str(e)}), 500
+            parsed_date = datetime.strptime(event_date, '%Y-%m-%d').date()  # Adjust format if needed
+        except ValueError:
+            return jsonify({"error": "Invalid date format. Use 'YYYY-MM-DD'."}), 400
+
+        conn = get_db_connection()
+        cur = conn.cursor()
+
+        cur.execute("DELETE FROM Events WHERE Date = ?", (parsed_date,))
+        
+        conn.commit()
+        conn.close()
+
+        return jsonify({"message": f"Events on {event_date} deleted successfully"}), 200
+    except sqlite3.Error as e:
+        return jsonify({"error": "Database error", "message": str(e)}), 500
+
 
 
 #adds the events into DB.
