@@ -1,4 +1,3 @@
-# Required Imports
 from flask import Flask, jsonify, render_template, request
 import sqlite3
 import requests
@@ -73,7 +72,7 @@ def add_event():
         required_fields = ['Title', 'Description', 'Start_Date', 'End_Date']
         if not all(field in data for field in required_fields):
             return jsonify({"error": "Missing required fields"}), 400
-        print(data)
+        
         conn = get_db_connection()
         cur = conn.cursor()
         cur.execute(
@@ -89,68 +88,86 @@ def add_event():
     except sqlite3.Error as e:
         return jsonify({"error": "Database error", "message": str(e)}), 500
 
-
-
-
-
-# saving, deleting and showing for todo list.
 @app.route('/add_task', methods=['POST'])
 def add_task():
-    """Add a new event to the database."""
+    """Add a new task to the database."""
     try:
         data = request.json
         required_fields = ['Description', 'DueDate', 'Status']
         if not all(field in data for field in required_fields):
             return jsonify({"error": "Missing required fields"}), 400
-        print(data)
+        
         conn = get_db_connection()
         cur = conn.cursor()
         cur.execute(
             """INSERT INTO ToDo (Description, DueDate, Status) VALUES (?, ?, ?)""",
-            (data['Description'], data['DueDate'], data['Status'])
+            (data['Description'], data['DueDate'], bool(data['Status']))  # Convert Status to boolean
         )
         conn.commit()
         conn.close()
-        return jsonify({"message": "Event added successfully"}), 201
+        return jsonify({"message": "Task added successfully"}), 201
     except sqlite3.Error as e:
         return jsonify({"error": "Database error", "message": str(e)}), 500
-    
 
 @app.route('/delete_task', methods=['POST'])
 def delete_task():
-    """Delete a task from the database
-    :param id: id of the task to delete
-    :return: JSON response with success message
-    """
+    """Delete a task from the database."""
     try:
         data = request.json
-        id = data['TaskID']
+        task_id = data.get('TaskID')  # Ensure TaskID is provided
+        if not task_id:
+            return jsonify({"error": "TaskID is required"}), 400
+        
         conn = get_db_connection()
         cur = conn.cursor()
-        cur.execute("DELETE FROM ToDo WHERE TaskID = ?", (id,))
+        cur.execute("DELETE FROM ToDo WHERE TaskID = ?", (task_id,))
         conn.commit()
-        conn.close
+        conn.close()
         return jsonify({"message": "Task deleted successfully"}), 200
     except sqlite3.Error as e:
         return jsonify({"error": "Database error", "message": str(e)}), 500
-    
 
-    
 @app.route('/show_task', methods=['GET'])
 def show_task():
-    """Show all tasks from the database"""
+    """Show all tasks from the database."""
     try:
         conn = get_db_connection()
         cur = conn.cursor()
-        cur.execute("SELECT * FROM ToDo")
-        tasks = cur.fetchall()
-        conn.close
+        cur.execute("SELECT TaskID, Description, DueDate, Status FROM ToDo")
+        tasks = [
+            {
+                "TaskID": row["TaskID"],
+                "Description": row["Description"],
+                "DueDate": row["DueDate"],
+                "Status": bool(row["Status"])  # Convert to boolean for frontend
+            }
+            for row in cur.fetchall()
+        ]
+        conn.close()
         return jsonify(tasks), 200
     except sqlite3.Error as e:
         return jsonify({"error": "Database error", "message": str(e)}), 500
-    
-    
+
+@app.route('/update_task', methods=['POST'])
+def update_task():
+    """Update task status in the database."""
+    try:
+        data = request.json
+        task_id = data.get('TaskID')
+        status = data.get('Status')
+
+        if task_id is None or status is None:
+            return jsonify({"error": "TaskID and Status are required"}), 400
+
+        conn = get_db_connection()
+        cur = conn.cursor()
+        cur.execute("UPDATE ToDo SET Status = ? WHERE TaskID = ?", (status, task_id))
+        conn.commit()
+        conn.close()
+        return jsonify({"message": "Task updated successfully"}), 200
+    except sqlite3.Error as e:
+        return jsonify({"error": "Database error", "message": str(e)}), 500
 
 # Main Entry Point
 if __name__ == '__main__':
-    app.run(debug=True)#change this to false later...
+    app.run(debug=True)  # Change this to False in production
