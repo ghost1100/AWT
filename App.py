@@ -130,9 +130,10 @@ def add_event():
             """,
             (data['Title'], data['Description'], data['Start_Date'])
         )
+        event_id = cur.lastrowid
         conn.commit()
         conn.close()
-        return jsonify({"message": "Event added successfully"}), 201
+        return jsonify({ "id" : event_id, "message": "Event added successfully"}), 201
     except sqlite3.Error as e:
         return jsonify({"error": "Database error", "message": str(e)}), 500
     

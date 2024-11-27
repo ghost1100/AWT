@@ -54,6 +54,7 @@ function displayEvents(dayDiv, day, month, year) {
             deleteButton.classList.add("DeleteEvent");
             deleteButton.dataset.date = dateKey; // Bind event date
             deleteButton.dataset.index = index; // Bind event index for precise deletion
+            deleteButton.dataset.id = event.ID;
             deleteButton.textContent = "Delete";
 
             eventTitle.appendChild(deleteButton);
@@ -70,6 +71,8 @@ function attachDeleteEventListeners() {
         button.addEventListener("click", function () {
             const eventDate = button.dataset.date;
             const eventIndex = button.dataset.index;
+            const eventId = button.dataset.id;
+    
 
             // Remove event from the event store
             deleteEventFromStore(eventDate, eventIndex);
@@ -280,15 +283,17 @@ document.addEventListener('DOMContentLoaded', function () {
             if (eventForm) {
                 eventForm.style.display = "none";
             }
+            //created without ID
             const eventData = {
                 Title: document.getElementById("EventTitle").value,
                 Description: document.getElementById("EventDescription").value,
-                Start_Date: document.getElementById("StartDate").value
+                Start_Date: document.getElementById("StartDate").value,
+                ID: response.id
             };
 
             // Add to the event store
             addEventToStore(eventData);
-
+            //sends data to server
             fetch('/add_event', {
                 method: 'POST',
                 headers: {
@@ -300,11 +305,17 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (!response.ok) {
                         throw new Error(`HTTP error! Status: ${response.status}`);
                     }
-                    return response.json();
+                    return response.json();//parse the json from response
                 })
                 .then(data => {
                     console.log("Event added successfully:", data);
                     createCalendar(currentMonth, currentYear); // Refresh calendar
+                    eventData.ID = data.id; // sets up the id of the event from the front end.
+                    addEventToStore(eventData);
+                    console.log("Event Added Successfully", data);
+                    //updating the calendar
+                    createCalendar(currentMonth,currentYear);
+                    console.log(data.id);// gets the id returned from the server
                 })
                 .catch(error => console.error("Error adding event:", error))
                 .finally(() => {
