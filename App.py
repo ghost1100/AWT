@@ -66,7 +66,8 @@ def get_calendar_events():
         cur = conn.cursor()
         cur.execute("SELECT Title, Start_Date FROM Events")
         rows = cur.fetchall()
-        events = [{"Title": row["Title"], "Start_Date": row["Start_Date"]} for row in rows]
+        events = [{"Title": row["Title"], "Start_Date": row["Start_Date"]
+                   } for row in rows]
         conn.close()
         return jsonify(events)
     except sqlite3.Error as e:

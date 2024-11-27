@@ -283,16 +283,21 @@ document.addEventListener('DOMContentLoaded', function () {
             if (eventForm) {
                 eventForm.style.display = "none";
             }
+
+  // Construct the date manually to ensure correct format
+  const day = document.getElementById("eventday").value;
+  const month = document.getElementById("eventmonth").value;
+  const year = document.getElementById("eventyear").value;
+  const formattedDate = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+
             //created without ID
             const eventData = {
                 Title: document.getElementById("EventTitle").value,
                 Description: document.getElementById("EventDescription").value,
-                Start_Date: document.getElementById("StartDate").value,
-                ID: response.id
+                Start_Date: formattedDate
             };
 
-            // Add to the event store
-            addEventToStore(eventData);
+          
             //sends data to server
             fetch('/add_event', {
                 method: 'POST',
@@ -308,16 +313,17 @@ document.addEventListener('DOMContentLoaded', function () {
                     return response.json();//parse the json from response
                 })
                 .then(data => {
-                    console.log("Event added successfully:", data);
-                    createCalendar(currentMonth, currentYear); // Refresh calendar
-                    eventData.ID = data.id; // sets up the id of the event from the front end.
+                    // adding ID from the server response
+                    eventData.id = data.id;
+                    //add to the event store
                     addEventToStore(eventData);
-                    console.log("Event Added Successfully", data);
-                    //updating the calendar
-                    createCalendar(currentMonth,currentYear);
-                    console.log(data.id);// gets the id returned from the server
+
+                    console.log("Event added successfully:", data);
+
+                    createCalendar(currentMonth, currentYear); // Refresh calendar
                 })
                 .catch(error => console.error("Error adding event:", error))
+            
                 .finally(() => {
                     eventForm.reset(); // Reset form fields
                     eventForm.style.display = "none";
