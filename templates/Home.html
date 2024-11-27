@@ -20,7 +20,7 @@
 
     <!-- Top Navigation -->
     <div class="topnavigationSplash">
-       
+
         <a href="{{ url_for('splash_screen') }}" aria-label="Go to Splash Screen">
             <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Company Logo">
         </a>
@@ -33,16 +33,20 @@
                 <button class="dropbtn" aria-haspopup="true" aria-expanded="false">Customize Colors</button>
                 <div class="dropdown-content">
                     <label for="bgColor">Background Color:</label>
-                    <input type="color" id="bgColor" name="bgColor" value="#ffffff" onchange="changeBackgroundColor(this.value)">
-                    
+                    <input type="color" id="bgColor" name="bgColor" value="#ffffff"
+                        onchange="changeBackgroundColor(this.value)">
+
                     <label for="textColor">Text Color:</label>
-                    <input type="color" id="textColor" name="textColor" value="#000000" onchange="changeTextColor(this.value)">
+                    <input type="color" id="textColor" name="textColor" value="#000000"
+                        onchange="changeTextColor(this.value)">
 
                     <label for="BarColor">Navigation Bar Color:</label>
-                    <input type="color" id="BarColor" name="BarColor" value="#000000" onchange="changeBarColor(this.value)">
+                    <input type="color" id="BarColor" name="BarColor" value="#000000"
+                        onchange="changeBarColor(this.value)">
 
                     <label for="BartxtColor">Navigation Bar Text Color:</label>
-                    <input type="color" id="BartxtColor" name="BartxtColor" value="#000000" onchange="NavigationTextColor(this.value)">
+                    <input type="color" id="BartxtColor" name="BartxtColor" value="#000000"
+                        onchange="NavigationTextColor(this.value)">
                 </div>
             </div>
 

@@ -1,20 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather</title>
-  <link  rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/css.css') }}"/>
-   <script src="{{ url_for('static', filename='js/Theme.js') }}"></script>
-   <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="Image/ Icon"/>
-</head>
-<body>
 
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/css.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/css3.css') }}" />
+    <script src="{{ url_for('static', filename='js/Theme.js') }}"></script>
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="Image/ Icon" />
+</head>
+
+<body>
     <div class="topnavigation">
         <a href="{{ url_for('splash_screen') }}">
-            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" />
         </a>
-    
     </div>
 
     <div class="topnavigation">
@@ -25,24 +26,58 @@
                 <div class="dropdown-content">
                     <!-- Color selectors inside dropdown -->
                     <label id="L1" for="bgColor">Background Color: </label>
-                    <input type="color" id="bgColor" name="bgColor" value="#ffffff" onchange="changeBackgroundColor(this.value)">
-                    
-                    <label id="L1" for="textColor">Text Color: </label>
-                    <input type="color" id="textColor" name="textColor" value="#000000" onchange="changeTextColor(this.value)">
-            
-                    <label id="L1" for="NavigationColor">NavigationBar Color: </label>
-                    <input type="color" id="BarColor" name="BarColor" value="#000000" onchange="changeBarColor(this.value)">
+                    <input type="color" id="bgColor" name="bgColor" value="#ffffff"
+                        onchange="changeBackgroundColor(this.value)" />
 
-                    <label id="L1" for="NavigationTextColor">NavigationBar Text Color: </label>
-                    <input type="color" id="BartxtColor" name="BartxtColor" value="#000000" onchange="NavigationTextColor(this.value)">
+                    <label id="L1" for="textColor">Text Color: </label>
+                    <input type="color" id="textColor" name="textColor" value="#000000"
+                        onchange="changeTextColor(this.value)" />
+
+                    <label id="L1" for="NavigationColor">NavigationBar Color: </label>
+                    <input type="color" id="BarColor" name="BarColor" value="#000000"
+                        onchange="changeBarColor(this.value)" />
+
+                    <label id="L1" for="NavigationTextColor">NavigationBar Text Color:
+                    </label>
+                    <input type="color" id="BartxtColor" name="BartxtColor" value="#000000"
+                        onchange="NavigationTextColor(this.value)" />
                 </div>
             </div>
-            
-           <a href="{{ url_for('home')}}">Home</a>
+
+            <a href="{{ url_for('home')}}">Home</a>
             <a href="{{ url_for('todo')}}">ToDo</a>
             <a href="{{ url_for('weather')}}">Weather</a>
         </nav>
- 
+    </div>
+    <div class="card">
+        <div class="search">
+            <input type="text" id="search" placeholder="Search for a city..." spellcheck="false" />
+            <button>
+                <img src="{{ url_for('static', filename='images/Lens.png') }}" alt="Magnifier Lens Picture" />
+            </button>
+        </div>
+        <div class="weather">
+            <img src="{{ url_for('static', filename='images/Rain.png') }}" class="weather-icon" />
+            <h1 class="temp">22°C</h1>
+            <h2 class="city">Boston</h2>
+            <div class="details">
+                <div class="col">
+                    <img src="{{ url_for('static', filename='images/Humidity.png') }}" alt="" />
+                    <div>
+                        <p class="humidity">50%</p>
+                        <p>Humidity</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <img src="{{ url_for('static', filename='images/Wind.png') }}" alt="" />
+                    <div>
+                        <p class="wind">10mph</p>
+                        <p>Wind Speed</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
+
 </html>
