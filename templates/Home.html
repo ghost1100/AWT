@@ -60,20 +60,15 @@
     </main>
 
     <!-- Event Form Modal -->
-    <div id="EventForm" class="Model" role="dialog" aria-labelledby="eventFormTitle" aria-hidden="true">
-        <div class="ModelContent">
-            <button class="CloseButton" aria-label="Close">&times;</button>
-            <h2 id="eventFormTitle">Add a New Event</h2>
-            <form id="eventForm">
-                <label for="EventTitle">Event Name:</label>
-                <input type="text" id="EventTitle" placeholder="Event Name" required>
-                <label for="EventDescription">Event Description:</label>
-                <textarea id="EventDescription" placeholder="Event Description" required></textarea>
-                <label for="StartDate">Start Date:</label>
-                <input type="datetime-local" id="StartDate" required>
-                <button type="submit" id="eventSubmit">Submit</button>
-            </form>
-        </div>
+    <div id="EventForm" style="display: none;">
+        <input type="text" id="EventTitle" placeholder="Event Title">
+        <input type="text" id="EventDescription" placeholder="Event Description">
+        <input type="date" id="StartDate">
+        <input type="hidden" id="eventday">
+        <input type="hidden" id="eventmonth">
+        <input type="hidden" id="eventyear">
+        <button type="submit">Submit</button>
+        <button class="CloseButton">Close</button>
     </div>
 
     <!-- Calendar Script -->
