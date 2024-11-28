@@ -4,50 +4,42 @@
 const apiKey = "920fa755c2a59658cedef9e6b76f8cad";
 const url = "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
 
-const searchBox = document.querySelector('.search input');
-const searchBtn = document.querySelector('.search button');
-try{ getWeather("London");}
-catch(err){
-    console.log(err);
-    }
-async function getWeather(city) {
-    try{
-        const response = await fetch(url + city + `&appid=${apiKey}`);
-        var data = await response.json();
-        console.log(data);
-        document.querySelector(".city").innerHTML = data.name;
-        document.querySelector(".temp").innerHTML = Math.round(data.main.temp) + "°C";
-        document.querySelector(".humidity").innerHTML = data.main.humidity + "%";
-        document.querySelector(".wind").innerHTML = data.wind.speed + "km/h";
-    
-    }
-    catch(error){
-        console.error(error);
-        document.querySelector(".city").innerHTML = "Error:" + error.message;
-        }
-    }
-  
-searchBtn.addEventListener("click",()=>{
-    const city = searchBox.value.trim();
-   if(city) getWeather(city);
-});
-
-getWeather("London");//giving a default city
-
-
-document.addEventListener("DOMContentLoaded",()=>{
+// Ensure DOM is fully loaded before accessing elements
+document.addEventListener("DOMContentLoaded", () => {
     const searchBox = document.querySelector('.search input');
     const searchBtn = document.querySelector('.search button');
-    
-    if (searchBox && searchBtn) {
-        searchBtn.addEventListener("click", () => {
-            const city = searchBox.value.trim();
-            if (city) getWeather(city);
-        });
-    
-        // Default weather fetch
-        getWeather("London");
-    } else {
+
+    if (!searchBox || !searchBtn) {
         console.error("Search elements not found in the DOM.");
+        return;
     }
+
+    // Add event listener for search button
+    searchBtn.addEventListener("click", () => {
+        const city = searchBox.value.trim();
+        if (city) getWeather(city);
+    });
+
+    // Fetch default weather for "London"
+    getWeather("London");
 });
+
+// Fetch weather data from API
+async function getWeather(city) {
+    try {
+        const response = await fetch(url + city + `&appid=${apiKey}`);
+        if (!response.ok) throw new Error(`API error: ${response.statusText}`);
+
+        const data = await response.json();
+        console.log(data);
+
+        // Update the UI with weather data
+        document.querySelector(".city").innerHTML = data.name || "Unknown City";
+        document.querySelector(".temp").innerHTML = Math.round(data.main.temp) + "°C";
+        document.querySelector(".humidity").innerHTML = data.main.humidity + "%";
+        document.querySelector(".wind").innerHTML = data.wind.speed + " km/h";
+    } catch (error) {
+        console.error("Error fetching weather data:", error);
+        document.querySelector(".city").innerHTML = "Error: " + error.message;
+    }
+}
