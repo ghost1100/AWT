@@ -10,6 +10,9 @@ from datetime import datetime
 UNSPLASH_API_KEY = "nLfSlOoclheYYtRhGHZi5FIBixRMjTJe7Ra6BsVbKEg"
 UNSPLASH_API_URL = "https://api.unsplash.com/photos/random?query={category}&orientation=landscape&client_id=" + UNSPLASH_API_KEY
 
+Weather_API_KEY = "920fa755c2a59658cedef9e6b76f8cad"
+WEATHER_API_URL = "https://api.openweathermap.org/data/2.5/weather?units=metric&q="+ Weather_API_KEY
+
 # Initializes the Flask App
 app = Flask(__name__)
 
