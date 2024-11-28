@@ -1,17 +1,24 @@
 #pip install requests
 #pip install sqlite3
 #pip install Flask
+#pip install python-dotenv
+import os
 from flask import Flask, jsonify, render_template, request
 import sqlite3
 import requests
 from datetime import datetime
+from dotenv import load_dotenv
 
+load_dotenv("Storage.env")
 # API Keys
 UNSPLASH_API_KEY = "nLfSlOoclheYYtRhGHZi5FIBixRMjTJe7Ra6BsVbKEg"
 UNSPLASH_API_URL = "https://api.unsplash.com/photos/random?query={category}&orientation=landscape&client_id=" + UNSPLASH_API_KEY
 
-Weather_API_KEY = "920fa755c2a59658cedef9e6b76f8cad"
-WEATHER_API_URL = "https://api.openweathermap.org/data/2.5/weather?units=metric&q="+ Weather_API_KEY
+Weather_API_KEY = os.getenv("WEATHER_API_KEY")
+if Weather_API_KEY is None:
+    print("Please set the WEATHER_API_KEY environment variable")
+    exit()
+WEATHER_API_URL = "https://api.openweathermap.org/data/2.5/weather?units=metric&q="
 
 # Initializes the Flask App
 app = Flask(__name__)
@@ -39,6 +46,22 @@ def todo():
 @app.route('/weather')
 def weather():
     return render_template('Weather.html')
+
+#OpenWeatherMap Route
+@app.route('/get_weather', methods=['POST'])
+def get_weather():
+    # Get the city from the request
+    city = request.json.get('city')
+    if city is None:
+        return jsonify({"error": "City not provided"}), 400
+    try:
+        #Make the api request
+        response = requests.get(f"{WEATHER_API_URL}{city}&appid={Weather_API_KEY}")
+        response.raise_for_status()# raise an exception for HTTP errors
+        weather_data = response.json()
+        return jsonify(weather_data), 200
+    except requests.exceptions.RequestException as e:
+        return jsonify({"error": "Failed to retrieve weather data"}), 500
 
 
 #unsplash api routing grabs a random image, its displayed through the js.
