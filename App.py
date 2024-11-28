@@ -2,6 +2,11 @@
 #pip install sqlite3
 #pip install Flask
 #pip install python-dotenv
+#pip install gunicorn
+#should add flask wtf for form handling later but i have no need to do so later
+#while sqlite 3 is a good db, it's not the best for large scale apps nor for non local deployment, consider migrating to postgrade or something like that
+#If your app will be accessed from other domains (like a front-end running separately), consider adding CORS (Cross-Origin Resource Sharing) support to allow the back-end to communicate with front-end applications on different domains.
+from multiprocessing import process
 import os
 from flask import Flask, jsonify, render_template, request
 import sqlite3
