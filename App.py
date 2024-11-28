@@ -13,6 +13,7 @@ import sqlite3
 import requests
 from datetime import datetime
 from dotenv import load_dotenv
+import psycopg2 
 
 load_dotenv("Storage.env")
 # API Keys
@@ -31,7 +32,11 @@ app = Flask(__name__)
 # Utility Functions
 def get_db_connection():
     #creates and returns connection
-    conn = sqlite3.connect('Database.db')
+    database_url = os.getenv('DATABASE_URL')
+    if database_url:
+        conn = psycopg2.connect(database_url, sslmode='require') 
+    else:
+        conn = sqlite3.connect('database.db')
     conn.row_factory = sqlite3.Row
     return conn
 
