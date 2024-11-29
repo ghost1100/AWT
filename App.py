@@ -1,4 +1,5 @@
 #pip install requests
+#pip install psycopg2
 #pip install sqlite3
 #pip install Flask
 #pip install python-dotenv
@@ -32,7 +33,7 @@ app = Flask(__name__)
 # Utility Functions
 def get_db_connection():
     #creates and returns connection
-    database_url = os.getenv('DATABASE_URL')
+    database_url = os.getenv('postgres://uchtopf69voj2b:pd9bfe643532bb3e6f1ef0536f37cc788beb524e556e72602a898c133bf67a15b@ec2-44-219-78-231.compute-1.amazonaws.com:5432/d4od1bmg57nhde')
     if database_url:
         conn = psycopg2.connect(database_url, sslmode='require') 
     else:
