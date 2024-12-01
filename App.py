@@ -11,14 +11,13 @@ from dotenv import load_dotenv
 
 load_dotenv("Storage.env")
 # API Keys
-UNSPLASH_API_KEY = "nLfSlOoclheYYtRhGHZi5FIBixRMjTJe7Ra6BsVbKEg"
-UNSPLASH_API_URL = "https://api.unsplash.com/photos/random?query={category}&orientation=landscape&client_id=" + UNSPLASH_API_KEY
-
+UNSPLASH_API_KEY =  os.getenv("UNSPLASH_API_KEY")
+UNSPLASH_API_URL =  os.getenv("UNSPLASH_API_URL")
 Weather_API_KEY = os.getenv("WEATHER_API_KEY")
 if Weather_API_KEY is None:
     print("Please set the WEATHER_API_KEY environment variable")
     exit()
-WEATHER_API_URL = "https://api.openweathermap.org/data/2.5/weather?units=metric&q="
+WEATHER_API_URL = Weather_API_URL = os.getenv("WEATHER_API_URL")
 
 # Initializes the Flask App
 app = Flask(__name__)
@@ -26,7 +25,8 @@ app = Flask(__name__)
 # Utility Functions
 def get_db_connection():
     #creates and returns connection
-    conn = sqlite3.connect('Database.db')
+    database_url = os.getenv("Database_url")
+    conn = sqlite3.connect(database_url)
     conn.row_factory = sqlite3.Row
     return conn
 
@@ -67,10 +67,11 @@ def get_weather():
 #unsplash api routing grabs a random image, its displayed through the js.
 @app.route('/get_random_image')
 def get_random_image():
-    """Fetch a random image from the Unsplash API."""
-    query = request.args.get("query", "nature White Background")
+    """Fetch a random image from the Unsplash API based on query."""
+    query = request.args.get("query", "nature Coulourfull Background")
     try:
-        response = requests.get(UNSPLASH_API_URL.format(category=query))
+        api_url = f"https://api.unsplash.com/photos/random?query={query}&orientation=landscape&client_id={UNSPLASH_API_KEY}"
+        response = requests.get(api_url)
         if response.status_code == 200:
             data = response.json()
             image_url = data.get('urls', {}).get('regular')
