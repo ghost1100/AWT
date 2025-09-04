@@ -59,7 +59,7 @@ Preparing apps for deployment (Heroku with PostgreSQL)
 
 Clone this repo:
 
-git clone https://github.com/yourusername/calendar-app.git
+git clone https://github.com/ghost1100/AWT.git
 
 
 Install dependencies:
@@ -76,3 +76,4 @@ flask run
 ✅ Functionality complete and tested
 
 ⚠️ Deployment in progress (moving from SQLite → PostgreSQL on Heroku)
+
